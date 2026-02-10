@@ -38,6 +38,14 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: cd frontend && npm install
+
     - name: Execute gradle build
       run: cd frontend/android && ./gradlew build    # Change this to build your mobile application
 
