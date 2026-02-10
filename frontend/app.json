@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "yousef-bolt",
-    "slug": "38c26144-da3c-4912-9bc6-b38c19e0f050",
+    "name": "Syria AI (Manus AGI)",
+    "slug": "syria-ai-manus",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "manus-ai",
+    "scheme": "syria-ai",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "splash": {
@@ -18,7 +18,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.orchids.remixofremixofremixofremixofremixofremixofremixofremixofremixofremixofmanusimwebsiteclone"
+      "bundleIdentifier": "im.manus.syriaai"
     },
     "android": {
       "edgeToEdgeEnabled": true,
@@ -26,7 +26,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#002623"
       },
-      "package": "com.orchids.remixofremixofremixofremixofremixofremixofremixofremixofremixofremixofmanusimwebsiteclone"
+      "package": "im.manus.syriaai"
     },
     "web": {
       "bundler": "metro",
