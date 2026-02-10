@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "yousef-bolt",
+    "slug": "38c26144-da3c-4912-9bc6-b38c19e0f050",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "manus-ai",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#002623"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.orchids.remixofremixofremixofremixofremixofremixofremixofremixofremixofremixofmanusimwebsiteclone"
+    },
+    "android": {
+      "edgeToEdgeEnabled": true,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#002623"
+      },
+      "package": "com.orchids.remixofremixofremixofremixofremixofremixofremixofremixofremixofremixofmanusimwebsiteclone"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

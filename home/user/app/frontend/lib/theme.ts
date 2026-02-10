@@ -1,0 +1,153 @@
+import { DarkTheme, type Theme } from '@react-navigation/native';
+
+export const IMPERIAL = {
+  background: '#081e1e',
+  backgroundEnd: '#0d2d2d',
+  card: 'rgba(8, 42, 42, 0.88)',
+  cardSolid: '#0b2e2e',
+  primary: '#d4af37',
+  primaryForeground: '#081e1e',
+  text: '#f0ede2',
+  textSecondary: '#c4a95a',
+  textTertiary: 'rgba(240, 237, 226, 0.45)',
+  border: 'rgba(212, 175, 55, 0.22)',
+  borderFocus: 'rgba(212, 175, 55, 0.55)',
+  accent: 'rgba(212, 175, 55, 0.1)',
+  glass: 'rgba(8, 36, 36, 0.92)',
+  chatShadow: 'rgba(212, 175, 55, 0.08)',
+  white: '#f0ede2',
+  black: '#081e1e',
+  gold: '#d4af37',
+  goldLight: '#e8d48b',
+  goldDark: '#988561',
+  goldGlow: 'rgba(212, 175, 55, 0.35)',
+  teal: '#1a6b6b',
+  tealDark: '#0b2e2e',
+  tealDeep: '#081e1e',
+  syGreen: '#007A3D',
+  syRed: '#CE1126',
+  syWhite: '#FFFFFF',
+  syBlack: '#000000',
+  forest: '#1a6b6b',
+  forestDark: '#0b2e2e',
+  forestDeep: '#081e1e',
+  umber: '#6b1f2a',
+  umberDark: '#4a151e',
+  success: '#4ade80',
+  warning: '#fbbf24',
+  error: '#ef4444',
+  info: '#38bdf8',
+  gradientStart: '#081e1e',
+  gradientMid: '#0b2e2e',
+  gradientEnd: '#1a6b6b',
+
+  editor: {
+    bg: '#061616',
+    gutterBg: '#051313',
+    lineHighlight: 'rgba(212, 175, 55, 0.05)',
+    selection: 'rgba(212, 175, 55, 0.18)',
+    cursor: '#d4af37',
+    lineNumber: 'rgba(212, 175, 55, 0.25)',
+    lineNumberActive: '#d4af37',
+    keyword: '#c4a95a',
+    string: '#4ade80',
+    comment: 'rgba(240, 237, 226, 0.25)',
+    function: '#e8d48b',
+    variable: '#f0ede2',
+    type: '#38bdf8',
+    number: '#fb923c',
+    operator: '#d4af37',
+    bracket: '#a78bfa',
+    tag: '#ef4444',
+    attribute: '#fbbf24',
+  },
+
+  terminal: {
+    bg: '#041212',
+    text: '#f0ede2',
+    prompt: '#d4af37',
+    error: '#ef4444',
+    success: '#4ade80',
+    info: '#38bdf8',
+    warning: '#fbbf24',
+    cursor: '#d4af37',
+    selection: 'rgba(212, 175, 55, 0.18)',
+    dim: 'rgba(240, 237, 226, 0.35)',
+  },
+
+  fileTree: {
+    bg: '#071919',
+    folderIcon: '#d4af37',
+    fileIcon: '#c4a95a',
+    selectedBg: 'rgba(212, 175, 55, 0.1)',
+    hoverBg: 'rgba(212, 175, 55, 0.05)',
+    indent: 'rgba(212, 175, 55, 0.08)',
+  },
+
+  panel: {
+    bg: '#082020',
+    headerBg: 'rgba(8, 36, 36, 0.95)',
+    resizer: 'rgba(212, 175, 55, 0.18)',
+    resizerActive: '#d4af37',
+    tabBg: 'rgba(8, 36, 36, 0.55)',
+    tabActiveBg: 'rgba(212, 175, 55, 0.1)',
+    tabBorder: 'rgba(212, 175, 55, 0.12)',
+  },
+
+  agent: {
+    planning: '#38bdf8',
+    researching: '#a78bfa',
+    coding: '#d4af37',
+    testing: '#fbbf24',
+    reviewing: '#fb923c',
+    refining: '#4ade80',
+    deploying: '#22d3ee',
+    idle: 'rgba(240, 237, 226, 0.25)',
+    error: '#ef4444',
+  },
+
+  git: {
+    added: '#4ade80',
+    modified: '#fbbf24',
+    deleted: '#ef4444',
+    renamed: '#38bdf8',
+    untracked: 'rgba(240, 237, 226, 0.35)',
+    conflict: '#f97316',
+    staged: '#a78bfa',
+  },
+
+  mcp: {
+    connected: '#4ade80',
+    disconnected: '#ef4444',
+    pending: '#fbbf24',
+    transport: '#a78bfa',
+    stdio: '#22d3ee',
+    sse: '#fb923c',
+    websocket: '#a78bfa',
+  },
+
+  statusBar: {
+    bg: '#051515',
+    text: 'rgba(240, 237, 226, 0.5)',
+    active: '#d4af37',
+  },
+};
+
+export const MANUS = IMPERIAL;
+
+const imperialNavTheme: Theme = {
+  ...DarkTheme,
+  colors: {
+    background: IMPERIAL.background,
+    border: IMPERIAL.border,
+    card: IMPERIAL.cardSolid,
+    notification: IMPERIAL.primary,
+    primary: IMPERIAL.primary,
+    text: IMPERIAL.text,
+  },
+};
+
+export const NAV_THEME: Record<'light' | 'dark', Theme> = {
+  light: imperialNavTheme,
+  dark: imperialNavTheme,
+};
