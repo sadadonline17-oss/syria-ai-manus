@@ -24,6 +24,6 @@ jobs:
 
     - name: Build
       run: |
+        cd frontend
         npm install
-        npm install -D webpack-cli
-        npx webpack
+        npm run build
