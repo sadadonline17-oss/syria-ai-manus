@@ -2,6 +2,8 @@ import { Hono } from 'hono';
 import { streamText } from 'ai';
 import { llmManager } from '../lib/llm/manager';
 import { getSystemPrompt } from '../lib/prompts/system-prompt';
+import { manusTools } from '../lib/llm/tools';
+import { globalMemory } from '../lib/llm/memory';
 
 const chat = new Hono();
 
@@ -20,14 +22,26 @@ chat.post('/', async (c) => {
       apiKeys,
     });
 
-    const systemPrompt = getSystemPrompt();
+    // Integration: Fetch context from Long-term Memory
+    const memoryContext = await globalMemory.getContextForPrompt();
+    
+    const systemPrompt = `${getSystemPrompt()}\n\n${memoryContext}`;
     const allMessages = [{ role: 'system' as const, content: systemPrompt }, ...messages];
 
+    // Integration: Manus Tools and Agentic Stream
     const result = streamText({
       model: modelInstance,
       messages: allMessages,
+      tools: manusTools,
+      maxSteps: 5, // Enable multi-step reasoning like Manus
       maxOutputTokens: maxTokens || 4096,
       temperature: temperature ?? 0.7,
+      onFinish: async ({ text }) => {
+        // Integration: Save important info to memory on finish
+        if (text.length > 50) {
+          await globalMemory.remember(`interaction_${Date.now()}`, text.slice(0, 100), 0.5);
+        }
+      }
     });
 
     return result.toTextStreamResponse();
