@@ -38,8 +38,16 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: cd frontend && npm install
+
     - name: Execute gradle build
-      run: ./gradlew build    # Change this to build your mobile application
+      run: cd frontend/android && ./gradlew build    # Change this to build your mobile application
 
     - name: Run Zimperium zScan
       uses: zimperium/zscanmarketplace@bfc6670f6648d796098c251ccefcfdb98983174d
@@ -52,7 +60,7 @@ jobs:
         # REPLACE: Zimperium Client Secret
         client_secret: ${{ secrets.ZSCAN_CLIENT_SECRET }}
         # REPLACE: The path to an .ipa or .apk
-        app_file: app-release-unsigned.apk
+        app_file: frontend/android/app/build/outputs/apk/release/app-release.apk
 
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v3
