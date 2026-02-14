@@ -44,6 +44,9 @@ jobs:
       - name: Install dependencies
         run: cd frontend && npm install
 
+      - name: Prebuild
+        run: cd frontend && npx expo prebuild --platform android --no-install
+
       - name: Build your application
         run: cd frontend/android && ./gradlew assembleDebug              # Update this to build your Android or iOS application
 
