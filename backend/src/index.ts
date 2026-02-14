@@ -3,6 +3,7 @@ import { cors } from 'hono/cors';
 import chat from './routes/chat';
 import models from './routes/models';
 import providers from './routes/providers';
+import integrations from './routes/integrations';
 
 const app = new Hono();
 
@@ -25,6 +26,7 @@ app.get('/health', (c) => {
 app.route('/api/chat', chat);
 app.route('/api/models', models);
 app.route('/api/providers', providers);
+app.route('/api/integrations', integrations);
 
 export default {
   fetch: app.fetch,
