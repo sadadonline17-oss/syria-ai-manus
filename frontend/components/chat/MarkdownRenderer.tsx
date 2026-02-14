@@ -3,6 +3,7 @@ import { Text, View, Platform } from 'react-native';
 
 interface MarkdownRendererProps {
   content: string;
+  color?: string;
 }
 
 interface ParsedBlock {
@@ -93,8 +94,9 @@ function parseBlocks(text: string): ParsedBlock[] {
   return blocks;
 }
 
-function renderInlineText(text: string, key: string) {
+function renderInlineText(text: string, key: string, defaultColor?: string) {
   const parts: React.ReactNode[] = [];
+  const color = defaultColor || IMPERIAL.text;
   const regex = /(\*\*\*(.+?)\*\*\*|\*\*(.+?)\*\*|\*(.+?)\*|`(.+?)`|~~(.+?)~~)/g;
   let lastIndex = 0;
   let match;
@@ -103,7 +105,7 @@ function renderInlineText(text: string, key: string) {
   while ((match = regex.exec(text)) !== null) {
     if (match.index > lastIndex) {
       parts.push(
-        <Text key={`${key}-t-${idx++}`} style={{ color: IMPERIAL.text }}>
+        <Text key={`${key}-t-${idx++}`} style={{ color }}>
           {text.slice(lastIndex, match.index)}
         </Text>
       );
@@ -119,13 +121,13 @@ function renderInlineText(text: string, key: string) {
       );
     } else if (match[3]) {
       parts.push(
-        <Text key={`${key}-b-${idx++}`} style={{ color: IMPERIAL.text, fontWeight: '700' }}>
+        <Text key={`${key}-b-${idx++}`} style={{ color, fontWeight: '700' }}>
           {match[3]}
         </Text>
       );
     } else if (match[4]) {
       parts.push(
-        <Text key={`${key}-i-${idx++}`} style={{ color: IMPERIAL.text, fontStyle: 'italic' }}>
+        <Text key={`${key}-i-${idx++}`} style={{ color, fontStyle: 'italic' }}>
           {match[4]}
         </Text>
       );
@@ -157,19 +159,20 @@ function renderInlineText(text: string, key: string) {
 
   if (lastIndex < text.length) {
     parts.push(
-      <Text key={`${key}-end`} style={{ color: IMPERIAL.text }}>
+      <Text key={`${key}-end`} style={{ color }}>
         {text.slice(lastIndex)}
       </Text>
     );
   }
 
-  return parts.length > 0 ? parts : <Text style={{ color: IMPERIAL.text }}>{text}</Text>;
+  return parts.length > 0 ? parts : <Text style={{ color }}>{text}</Text>;
 }
 
-export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
+export default function MarkdownRenderer({ content, color }: MarkdownRendererProps) {
   if (!content) return null;
 
   const blocks = parseBlocks(content);
+  const textColor = color || IMPERIAL.text;
 
   return (
     <View style={{ gap: 6 }}>
@@ -201,7 +204,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
               <View
                 key={key}
                 style={{
-                  backgroundColor: 'rgba(0,0,0,0.3)',
+                  backgroundColor: color === '#000' ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.3)',
                   borderRadius: 10,
                   padding: 12,
                   borderWidth: 1,
@@ -222,7 +225,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
                   style={{
                     fontSize: 12,
                     lineHeight: 20,
-                    color: IMPERIAL.text,
+                    color: textColor,
                     fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
                   }}
                   selectable>
@@ -273,11 +276,11 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
                         flex: 1,
                         fontSize: 14,
                         lineHeight: 22,
-                        color: IMPERIAL.text,
+                        color: textColor,
                         textAlign: 'right',
                         writingDirection: 'rtl',
                       }}>
-                      {renderInlineText(item, `${key}-li-${li}`)}
+                      {renderInlineText(item, `${key}-li-${li}`, textColor)}
                     </Text>
                     <Text style={{ color: IMPERIAL.gold, fontSize: 14, lineHeight: 22 }}>
                       {block.ordered ? `${li + 1}.` : '•'}
@@ -295,12 +298,12 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
                 style={{
                   fontSize: 15,
                   lineHeight: 24,
-                  color: IMPERIAL.text,
+                  color: textColor,
                   textAlign: 'right',
                   writingDirection: 'rtl',
                 }}
                 selectable>
-                {renderInlineText(block.text, key)}
+                {renderInlineText(block.text, key, textColor)}
               </Text>
             );
         }

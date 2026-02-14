@@ -5,7 +5,13 @@ import { View, Text, TouchableOpacity } from 'react-native';
 const footerSections = [
   {
     title: 'نظام Manus AGI',
-    links: ['محرك الوكلاء', 'الذاكرة طويلة الأمد', 'تصفح الويب الحي', 'تحليل البيانات الحقيقي', 'سير عمل Manus'],
+    links: [
+      'محرك الوكلاء',
+      'الذاكرة طويلة الأمد',
+      'تصفح الويب الحي',
+      'تحليل البيانات الحقيقي',
+      'سير عمل Manus',
+    ],
   },
   {
     title: 'الموارد',
@@ -71,7 +77,8 @@ export default function Footer() {
           </Text>
         </View>
         <Text style={{ fontSize: 11, color: IMPERIAL.textTertiary, textAlign: 'center' }}>
-          الجمهورية العربية السورية — الهوية البصرية الجديدة — {new Date().getFullYear()} — مدعوم بقدرات Manus AGI
+          الجمهورية العربية السورية — الهوية البصرية الجديدة — {new Date().getFullYear()} — مدعوم
+          بقدرات Manus AGI
         </Text>
       </View>
     </View>

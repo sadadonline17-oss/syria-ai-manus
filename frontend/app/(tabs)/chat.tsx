@@ -1,18 +1,18 @@
 import GoldenEagle from '@/components/icons/GoldenEagle';
+import IslamicPattern from '@/components/IslamicPattern';
 import MarkdownRenderer from '@/components/chat/MarkdownRenderer';
 import { useChat } from '@/lib/hooks/useChat';
 import { useSettingsStore } from '@/lib/stores/settings-store';
 import { IMPERIAL } from '@/lib/theme';
 import {
   ArrowUpIcon,
-  ChevronDownIcon,
   PlusIcon,
-  SparklesIcon,
   Trash2Icon,
   XIcon,
   SearchIcon,
   HistoryIcon,
   PlusCircleIcon,
+  PaperclipIcon,
 } from 'lucide-react-native';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import {
@@ -110,46 +110,38 @@ export default function ChatScreen() {
     .filter((p) => p.staticModels.length > 0);
 
   const renderMessage = ({ item }: { item: ChatMessage }) => (
-    <View style={{ paddingHorizontal: 16, paddingVertical: 6 }}>
-      {item.role === 'assistant' && (
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 6,
-            marginBottom: 4,
-            alignSelf: 'flex-end',
-          }}>
-          <Text style={{ fontSize: 11, color: IMPERIAL.gold, fontWeight: '600' }}>سوريا AI</Text>
-          <GoldenEagle size={16} />
-        </View>
-      )}
+    <View style={{ paddingHorizontal: 16, paddingVertical: 8 }}>
       <View
         style={{
           maxWidth: '85%',
-          backgroundColor: item.role === 'user' ? IMPERIAL.primary : IMPERIAL.glass,
-          borderRadius: 18,
+          backgroundColor: item.role === 'user' ? IMPERIAL.background : IMPERIAL.primary,
+          borderRadius: 15,
           paddingHorizontal: 16,
           paddingVertical: 12,
-          borderWidth: 1,
-          borderColor: item.role === 'user' ? IMPERIAL.gold : IMPERIAL.border,
-          alignSelf: item.role === 'user' ? 'flex-start' : 'flex-end',
+          borderWidth: item.role === 'user' ? 1.5 : 0,
+          borderColor: IMPERIAL.gold,
+          alignSelf: item.role === 'user' ? 'flex-end' : 'flex-start',
+          shadowColor: item.role === 'assistant' ? IMPERIAL.gold : 'transparent',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.2,
+          shadowRadius: 4,
         }}>
         {item.role === 'assistant' && item.isStreaming && !item.content ? (
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-            <ActivityIndicator size="small" color={IMPERIAL.gold} />
-            <Text style={{ fontSize: 13, color: IMPERIAL.textTertiary }}>جاري التفكير...</Text>
+            <ActivityIndicator size="small" color={IMPERIAL.background} />
+            <Text style={{ fontSize: 13, color: IMPERIAL.background, fontWeight: '500' }}>
+              جاري التفكير...
+            </Text>
           </View>
         ) : item.role === 'assistant' ? (
-          <MarkdownRenderer content={item.content} />
+          <MarkdownRenderer content={item.content} color="#000" />
         ) : (
           <Text
             style={{
               fontSize: 15,
-              lineHeight: 24,
-              color: IMPERIAL.primaryForeground,
-              textAlign: 'right',
-              writingDirection: 'rtl',
+              lineHeight: 22,
+              color: IMPERIAL.gold,
+              textAlign: 'left',
             }}>
             {item.content}
           </Text>
@@ -173,51 +165,72 @@ export default function ChatScreen() {
       className="flex-1"
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{ backgroundColor: IMPERIAL.background }}>
+      <IslamicPattern />
       <View
         style={{
           paddingTop: insets.top + 8,
           paddingHorizontal: 16,
-          paddingBottom: 12,
-          borderBottomWidth: 1,
-          borderBottomColor: IMPERIAL.border,
-          backgroundColor: IMPERIAL.glass,
+          paddingBottom: 20,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-          {messages.length > 0 && (
-            <TouchableOpacity onPress={handleNewChat} style={{ padding: 4 }}>
-              <PlusCircleIcon size={18} color={IMPERIAL.textTertiary} />
-            </TouchableOpacity>
-          )}
-          <TouchableOpacity onPress={() => setShowHistory(true)} style={{ padding: 4 }}>
-            <HistoryIcon size={18} color={IMPERIAL.textTertiary} />
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+          <TouchableOpacity style={{ padding: 4 }}>
+            <View
+              style={{ width: 22, height: 2, backgroundColor: IMPERIAL.gold, marginBottom: 5 }}
+            />
+            <View
+              style={{ width: 22, height: 2, backgroundColor: IMPERIAL.gold, marginBottom: 5 }}
+            />
+            <View style={{ width: 16, height: 2, backgroundColor: IMPERIAL.gold }} />
           </TouchableOpacity>
-          <SparklesIcon size={18} color={IMPERIAL.gold} />
+          <TouchableOpacity
+            onPress={handleNewChat}
+            style={{
+              borderWidth: 1,
+              borderColor: IMPERIAL.gold,
+              borderRadius: 25,
+              paddingHorizontal: 14,
+              paddingVertical: 7,
+              backgroundColor: 'transparent',
+            }}>
+            <Text style={{ color: IMPERIAL.gold, fontSize: 14, fontWeight: '500' }}>New Chat</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          onPress={() => setShowModelPicker(true)}
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 6,
-            backgroundColor: IMPERIAL.accent,
-            paddingHorizontal: 12,
-            paddingVertical: 6,
-            borderRadius: 12,
-            borderWidth: 1,
-            borderColor: IMPERIAL.border,
-            maxWidth: 180,
-          }}>
-          <ChevronDownIcon size={14} color={IMPERIAL.gold} />
-          <Text style={{ fontSize: 12, color: IMPERIAL.gold, fontWeight: '600' }} numberOfLines={1}>
-            {currentModel?.label || selectedModel.split('/').pop()}
+
+        <View style={{ alignItems: 'center', flex: 1 }}>
+          <GoldenEagle size={65} />
+          <Text
+            style={{
+              color: IMPERIAL.gold,
+              fontSize: 14,
+              marginTop: 4,
+              fontFamily: Platform.OS === 'web' ? 'Traditional Arabic, serif' : undefined,
+            }}>
+            الجمهورية العربية السورية
           </Text>
-        </TouchableOpacity>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-          <Text style={{ fontSize: 18, fontWeight: '700', color: IMPERIAL.gold }}>المحادثة</Text>
-          <GoldenEagle size={24} />
+          <Text
+            style={{
+              color: IMPERIAL.gold,
+              fontSize: 15,
+              fontWeight: '400',
+              fontFamily: Platform.OS === 'web' ? 'Georgia, serif' : undefined,
+            }}>
+            Syrian Arab Republic
+          </Text>
+        </View>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+          <TouchableOpacity onPress={() => setShowHistory(true)}>
+            <PlusIcon size={22} color={IMPERIAL.gold} />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={{ color: IMPERIAL.gold, fontSize: 24, fontWeight: '400' }}>?</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <XIcon size={22} color={IMPERIAL.gold} />
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -292,74 +305,75 @@ export default function ChatScreen() {
         />
       )}
 
-      <View style={{ paddingHorizontal: 12, paddingBottom: insets.bottom + 8, paddingTop: 8 }}>
+      <View style={{ paddingHorizontal: 16, paddingBottom: insets.bottom + 12, paddingTop: 8 }}>
         <View
           style={{
-            backgroundColor: IMPERIAL.card,
-            borderRadius: 22,
+            backgroundColor: 'transparent',
+            borderRadius: 25,
             borderWidth: 1,
             borderColor: IMPERIAL.border,
             flexDirection: 'row',
-            alignItems: 'flex-end',
-            paddingHorizontal: 12,
-            paddingVertical: 8,
-            gap: 8,
+            alignItems: 'center',
+            paddingHorizontal: 16,
+            paddingVertical: 10,
+            gap: 12,
           }}>
-          <TouchableOpacity
-            style={{
-              width: 34,
-              height: 34,
-              borderRadius: 17,
-              borderWidth: 1,
-              borderColor: IMPERIAL.border,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <PlusIcon size={18} color={IMPERIAL.textSecondary} />
+          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+            <Text style={{ color: IMPERIAL.textTertiary, fontSize: 14 }}>@ Add context</Text>
           </TouchableOpacity>
 
           <TextInput
-            placeholder="اكتب رسالتك..."
+            placeholder="Tell Same what you want"
             placeholderTextColor={IMPERIAL.textTertiary}
             value={inputValue}
             onChangeText={setInputValue}
             onSubmitEditing={handleSend}
-            multiline
             editable={!isStreaming}
             style={{
               flex: 1,
-              fontSize: 15,
-              lineHeight: 22,
+              fontSize: 16,
               color: IMPERIAL.text,
-              maxHeight: 100,
-              paddingVertical: 4,
-              textAlign: 'right',
-              writingDirection: 'rtl',
+              textAlign: 'left',
             }}
           />
 
-          <TouchableOpacity
-            onPress={handleSend}
-            disabled={!inputValue.trim() || isStreaming}
-            style={{
-              width: 34,
-              height: 34,
-              borderRadius: 17,
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor:
-                inputValue.trim() && !isStreaming ? IMPERIAL.primary : IMPERIAL.accent,
-            }}>
-            {isStreaming ? (
-              <ActivityIndicator size="small" color={IMPERIAL.gold} />
-            ) : (
-              <ArrowUpIcon
-                size={16}
-                strokeWidth={3}
-                color={inputValue.trim() ? IMPERIAL.primaryForeground : IMPERIAL.textTertiary}
-              />
-            )}
-          </TouchableOpacity>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            <TouchableOpacity style={{ padding: 4 }}>
+              <PaperclipIcon size={20} color={IMPERIAL.textTertiary} />
+            </TouchableOpacity>
+
+            <View
+              style={{
+                backgroundColor: 'rgba(212, 175, 55, 0.15)',
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+                borderRadius: 15,
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <Text style={{ color: IMPERIAL.gold, fontSize: 13, fontWeight: '500' }}>
+                Agentic <Text style={{ color: '#a78bfa' }}>max</Text>
+              </Text>
+            </View>
+
+            <TouchableOpacity
+              onPress={handleSend}
+              disabled={!inputValue.trim() || isStreaming}
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 20,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: IMPERIAL.gold,
+              }}>
+              {isStreaming ? (
+                <ActivityIndicator size="small" color={IMPERIAL.background} />
+              ) : (
+                <ArrowUpIcon size={22} strokeWidth={3} color={IMPERIAL.background} />
+              )}
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
 
