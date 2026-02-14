@@ -1,14 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Animated, Easing } from 'react-native';
-import Svg, {
-  Path,
-  Circle,
-  G,
-  Defs,
-  LinearGradient,
-  Stop,
-  RadialGradient,
-} from 'react-native-svg';
+import Svg, { Path, Circle, G, Defs, LinearGradient, Stop, RadialGradient } from 'react-native-svg';
 
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
 
@@ -88,33 +80,40 @@ export default function GoldenEagle({
         </RadialGradient>
       </Defs>
 
-      {glow && (
-        <Circle cx="100" cy="60" r="60" fill="url(#logoGlow)" />
-      )}
+      {glow && <Circle cx="100" cy="60" r="60" fill="url(#logoGlow)" />}
 
       <G transform="translate(10, 10) scale(0.9)">
-        {/* The New Syrian Eagle - Stylized Silhouette based on 2026 Identity */}
+        {/* Enhanced Hawk of Quraish - Detailed and Majestic */}
         <Path
-          d="M90,30 C90,30 85,25 80,30 C75,35 70,50 70,50 L50,45 C40,42 20,45 10,60 C0,75 10,95 30,90 C40,88 55,75 60,70 L75,85 L85,95 L90,85 L95,95 L105,85 L120,70 C125,75 140,88 150,90 C170,95 180,75 170,60 C160,45 140,42 130,45 L110,50 C110,50 105,35 100,30 C95,25 90,30 90,30 Z"
+          d="M100,25 C100,25 95,20 85,25 C75,30 70,45 70,45 L40,40 C30,38 10,45 5,65 C0,85 15,105 40,100 C55,97 70,80 75,75 L80,90 L90,105 L100,90 L110,105 L120,90 L125,75 C130,80 145,97 160,100 C185,105 200,85 195,65 C190,45 170,38 160,40 L130,45 C130,45 125,30 115,25 C105,20 100,25 100,25 Z"
           fill="url(#syrianGold)"
         />
-        
-        {/* Wings detail */}
+
+        {/* Wing Feathers Detail */}
         <Path
-          d="M20,65 L55,55 M160,65 L125,55"
+          d="M30,70 L60,60 M170,70 L140,60 M25,80 L55,70 M175,80 L145,70"
           stroke="#B8860B"
-          strokeWidth="1"
-          opacity="0.5"
+          strokeWidth="1.5"
+          opacity="0.4"
         />
 
-        {/* Three Stars above the eagle */}
-        <G transform="translate(90, 5)">
-           {/* Star 1 */}
-           <Path d="M0,0 L1.5,4 L6,4 L2.5,7 L4,11 L0,8.5 L-4,11 L-2.5,7 L-6,4 L-1.5,4 Z" fill="#D4AF37" />
-           {/* Star 2 */}
-           <Path d="M-15,5 L-13.5,9 L-9,9 L-12.5,12 L-11,16 L-15,13.5 L-19,16 L-17.5,12 L-21,9 L-16.5,9 Z" fill="#D4AF37" />
-           {/* Star 3 */}
-           <Path d="M15,5 L16.5,9 L21,9 L17.5,12 L19,16 L15,13.5 L11,16 L12.5,12 L9,9 L13.5,9 Z" fill="#D4AF37" />
+        {/* Central Shield or Detail */}
+        <Path d="M90,50 Q100,45 110,50 L105,80 Q100,85 95,80 Z" fill="#B8860B" opacity="0.3" />
+
+        {/* Three Stars - Positioned and styled like the image */}
+        <G transform="translate(100, 0)">
+          {/* Star 1 (Center) */}
+          <Path d="M0,0 L2,5 L8,5 L3,8 L5,14 L0,10 L-5,14 L-3,8 L-8,5 L-2,5 Z" fill="#D4AF37" />
+          {/* Star 2 (Left) */}
+          <Path
+            d="M-22,8 L-20,13 L-14,13 L-19,16 L-17,22 L-22,18 L-27,22 L-25,16 L-30,13 L-24,13 Z"
+            fill="#D4AF37"
+          />
+          {/* Star 3 (Right) */}
+          <Path
+            d="M22,8 L24,13 L30,13 L25,16 L27,22 L22,18 L17,22 L19,16 L14,13 L20,13 Z"
+            fill="#D4AF37"
+          />
         </G>
       </G>
     </SvgComponent>

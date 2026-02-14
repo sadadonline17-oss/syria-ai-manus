@@ -4,7 +4,6 @@ import {
   GlobeIcon,
   FolderIcon,
   GitBranchIcon,
-  ShoppingCartIcon,
   BrainCircuitIcon,
   WorkflowIcon,
   PlugIcon,
@@ -14,16 +13,48 @@ import {
 import { View, Text, TouchableOpacity } from 'react-native';
 
 const features = [
-  { icon: BrainCircuitIcon, title: 'محرك Manus AGI', desc: 'ذكاء اصطناعي عام قادر على التفكير والتنفيذ الذاتي' },
-  { icon: WorkflowIcon, title: 'نظام الوكلاء (Agents)', desc: 'توزيع المهام على وكلاء متخصصين لضمان الدقة' },
-  { icon: TerminalIcon, title: 'أدوات Manus الحقيقية', desc: 'وصول كامل لبيئة التشغيل، الملفات، والأوامر' },
+  {
+    icon: BrainCircuitIcon,
+    title: 'محرك Manus AGI',
+    desc: 'ذكاء اصطناعي عام قادر على التفكير والتنفيذ الذاتي',
+  },
+  {
+    icon: WorkflowIcon,
+    title: 'نظام الوكلاء (Agents)',
+    desc: 'توزيع المهام على وكلاء متخصصين لضمان الدقة',
+  },
+  {
+    icon: TerminalIcon,
+    title: 'أدوات Manus الحقيقية',
+    desc: 'وصول كامل لبيئة التشغيل، الملفات، والأوامر',
+  },
   { icon: GlobeIcon, title: 'تصفح الويب الذكي', desc: 'بحث عميق وتحليل حي للمعلومات عبر الإنترنت' },
-  { icon: FolderIcon, title: 'الذاكرة طويلة الأمد', desc: 'تذكر سياقك وتفضيلاتك عبر جميع المحادثات' },
-  { icon: GitBranchIcon, title: 'سير العمل (Workflow)', desc: 'إدارة مهام برمجية معقدة من التخطيط إلى النشر' },
-  { icon: SearchIcon, title: 'تحليل البيانات الحقيقي', desc: 'معالجة البيانات والملفات باستخدام أدوات متقدمة' },
+  {
+    icon: FolderIcon,
+    title: 'الذاكرة طويلة الأمد',
+    desc: 'تذكر سياقك وتفضيلاتك عبر جميع المحادثات',
+  },
+  {
+    icon: GitBranchIcon,
+    title: 'سير العمل (Workflow)',
+    desc: 'إدارة مهام برمجية معقدة من التخطيط إلى النشر',
+  },
+  {
+    icon: SearchIcon,
+    title: 'تحليل البيانات الحقيقي',
+    desc: 'معالجة البيانات والملفات باستخدام أدوات متقدمة',
+  },
   { icon: PlugIcon, title: 'تكاملات Manus', desc: 'ربط مباشر مع GitHub، Slack، وقواعد البيانات' },
-  { icon: BrainCircuitIcon, title: 'بروتوكول MCP النشط', desc: 'تبادل السياق المتقدم بين النماذج والأدوات' },
-  { icon: LayoutTemplateIcon, title: 'الهوية السورية الجديدة', desc: 'تصميم عصري يعكس روح الابتكار السوري' },
+  {
+    icon: BrainCircuitIcon,
+    title: 'بروتوكول MCP النشط',
+    desc: 'تبادل السياق المتقدم بين النماذج والأدوات',
+  },
+  {
+    icon: LayoutTemplateIcon,
+    title: 'الهوية السورية الجديدة',
+    desc: 'تصميم عصري يعكس روح الابتكار السوري',
+  },
 ];
 
 export default function FeatureGrid() {
