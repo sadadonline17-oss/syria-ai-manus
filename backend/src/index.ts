@@ -6,6 +6,7 @@ import providers from './routes/providers';
 import integrations from './routes/integrations';
 import terminal from './routes/terminal';
 import agent from './routes/agent';
+import agents from './routes/agents';
 
 const app = new Hono();
 
@@ -31,6 +32,7 @@ app.route('/api/providers', providers);
 app.route('/api/integrations', integrations);
 app.route('/api/terminal', terminal);
 app.route('/api/agent', agent);
+app.route('/api/agents', agents);
 
 export default {
   fetch: app.fetch,

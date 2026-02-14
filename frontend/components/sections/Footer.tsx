@@ -76,9 +76,11 @@ export default function Footer() {
             سوريا AI
           </Text>
         </View>
+        <Text style={{ fontSize: 11, color: IMPERIAL.textTertiary, textAlign: 'center', marginBottom: 4 }}>
+          Developed by: Yusuf Shtewi | يوسف شتيوي
+        </Text>
         <Text style={{ fontSize: 11, color: IMPERIAL.textTertiary, textAlign: 'center' }}>
-          الجمهورية العربية السورية — الهوية البصرية الجديدة — {new Date().getFullYear()} — مدعوم
-          بقدرات Manus AGI
+         共和国阿拉伯叙利亚共和国 — {new Date().getFullYear()} — Powered by Manus AGI
         </Text>
       </View>
     </View>

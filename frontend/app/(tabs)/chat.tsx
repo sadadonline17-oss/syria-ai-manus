@@ -1,8 +1,10 @@
 import GoldenEagle from '@/components/icons/GoldenEagle';
 import IslamicPattern from '@/components/IslamicPattern';
 import MarkdownRenderer from '@/components/chat/MarkdownRenderer';
+import { AgentSelector } from '@/components/chat/AgentSelector';
 import { useChat } from '@/lib/hooks/useChat';
 import { useSettingsStore } from '@/lib/stores/settings-store';
+import { useAgentStore } from '@/lib/stores/agent-store';
 import { IMPERIAL } from '@/lib/theme';
 import {
   ArrowUpIcon,
@@ -42,10 +44,12 @@ export default function ChatScreen() {
   const [inputValue, setInputValue] = useState('');
   const [showModelPicker, setShowModelPicker] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+  const [showAgentSelector, setShowAgentSelector] = useState(false);
   const [modelSearch, setModelSearch] = useState('');
   const [providers, setProviders] = useState<ProviderData[]>([]);
   const insets = useSafeAreaInsets();
   const flatListRef = useRef<FlatList>(null);
+  const { selectedAgent } = useAgentStore();
   const {
     messages,
     isStreaming,
@@ -342,19 +346,20 @@ export default function ChatScreen() {
               <PaperclipIcon size={20} color={IMPERIAL.textTertiary} />
             </TouchableOpacity>
 
-            <View
+            <TouchableOpacity
+              onPress={() => setShowAgentSelector(true)}
               style={{
-                backgroundColor: 'rgba(212, 175, 55, 0.15)',
+                backgroundColor: selectedAgent ? selectedAgent.color : 'rgba(212, 175, 55, 0.15)',
                 paddingHorizontal: 10,
                 paddingVertical: 5,
                 borderRadius: 15,
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
-              <Text style={{ color: IMPERIAL.gold, fontSize: 13, fontWeight: '500' }}>
-                Agentic <Text style={{ color: '#a78bfa' }}>max</Text>
+              <Text style={{ color: selectedAgent ? '#fff' : IMPERIAL.gold, fontSize: 13, fontWeight: '500' }}>
+                {selectedAgent ? selectedAgent.nameAr : 'الوكيل'} <Text style={{ color: '#a78bfa' }}>max</Text>
               </Text>
-            </View>
+            </TouchableOpacity>
 
             <TouchableOpacity
               onPress={handleSend}
@@ -633,6 +638,8 @@ export default function ChatScreen() {
           </View>
         </View>
       </Modal>
+
+      <AgentSelector visible={showAgentSelector} onClose={() => setShowAgentSelector(false)} />
     </KeyboardAvoidingView>
   );
 }
