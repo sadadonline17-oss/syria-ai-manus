@@ -1,4 +1,3 @@
-import GoldenEagle from '@/components/icons/GoldenEagle';
 import MarkdownRenderer from '@/components/chat/MarkdownRenderer';
 import { useChat } from '@/lib/hooks/useChat';
 import { useSettingsStore } from '@/lib/stores/settings-store';
@@ -121,7 +120,6 @@ export default function ChatScreen() {
             alignSelf: 'flex-end',
           }}>
           <Text style={{ fontSize: 11, color: IMPERIAL.gold, fontWeight: '600' }}>سوريا AI</Text>
-          <GoldenEagle size={16} />
         </View>
       )}
       <View
@@ -217,13 +215,11 @@ export default function ChatScreen() {
         </TouchableOpacity>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
           <Text style={{ fontSize: 18, fontWeight: '700', color: IMPERIAL.gold }}>المحادثة</Text>
-          <GoldenEagle size={24} />
         </View>
       </View>
 
       {messages.length === 0 ? (
         <View className="flex-1 items-center justify-center px-8">
-          <GoldenEagle size={60} />
           <Text
             style={{
               fontSize: 22,

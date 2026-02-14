@@ -1,4 +1,3 @@
-import GoldenEagle from '@/components/icons/GoldenEagle';
 import { IMPERIAL } from '@/lib/theme';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -23,7 +22,6 @@ export default function Navbar() {
           paddingVertical: 8,
         }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-          <GoldenEagle size={36} />
           <View>
             <Text
               style={{ fontSize: 16, fontWeight: '700', color: IMPERIAL.gold, letterSpacing: 1 }}>

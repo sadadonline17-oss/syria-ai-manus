@@ -1,4 +1,3 @@
-import GoldenEagle from '@/components/icons/GoldenEagle';
 import { IMPERIAL } from '@/lib/theme';
 import {
   ArrowUpIcon,
@@ -35,8 +34,6 @@ export default function HeroChat() {
 
   return (
     <View style={{ alignItems: 'center', paddingHorizontal: 16, marginTop: 32 }}>
-      <GoldenEagle size={90} glow animated />
-
       <Text
         style={{
           fontFamily: Platform.OS === 'web' ? 'Georgia, serif' : undefined,

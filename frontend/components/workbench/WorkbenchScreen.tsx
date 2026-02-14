@@ -1,4 +1,3 @@
-import GoldenEagle from '@/components/icons/GoldenEagle';
 import FileTree from '@/components/workbench/FileTree';
 import { useWorkbenchStore, type BottomPanelType } from '@/lib/stores/workbench-store';
 import { IMPERIAL } from '@/lib/theme';
@@ -60,7 +59,6 @@ function CodeEditor() {
           justifyContent: 'center',
           backgroundColor: IMPERIAL.editor.bg,
         }}>
-        <GoldenEagle size={48} />
         <Text style={{ fontSize: 14, color: IMPERIAL.textTertiary, marginTop: 12 }}>
           اختر ملفاً لبدء التحرير
         </Text>
@@ -432,7 +430,6 @@ export default function WorkbenchScreen() {
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
           <Text style={{ fontSize: 14, fontWeight: '700', color: IMPERIAL.gold }}>Workbench</Text>
-          <GoldenEagle size={22} />
         </View>
         <TouchableOpacity
           style={{

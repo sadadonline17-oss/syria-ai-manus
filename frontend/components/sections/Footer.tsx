@@ -1,4 +1,3 @@
-import GoldenEagle from '@/components/icons/GoldenEagle';
 import { IMPERIAL } from '@/lib/theme';
 import { View, Text, TouchableOpacity } from 'react-native';
 
@@ -65,7 +64,6 @@ export default function Footer() {
             gap: 8,
             marginBottom: 8,
           }}>
-          <GoldenEagle size={28} />
           <Text style={{ fontSize: 15, fontWeight: '700', color: IMPERIAL.gold, letterSpacing: 1 }}>
             سوريا AI
           </Text>

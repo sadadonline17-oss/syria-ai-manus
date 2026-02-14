@@ -1,4 +1,3 @@
-import GoldenEagle from '@/components/icons/GoldenEagle';
 import { IMPERIAL } from '@/lib/theme';
 import {
   UsersIcon,
@@ -81,9 +80,7 @@ export default function DashboardScreen() {
             borderColor: IMPERIAL.border,
             alignItems: 'center',
             justifyContent: 'center',
-          }}>
-          <GoldenEagle size={22} />
-        </View>
+          }}></View>
         <View style={{ alignItems: 'flex-end' }}>
           <Text style={{ fontSize: 22, fontWeight: '700', color: IMPERIAL.gold }}>لوحة التحكم</Text>
           <Text style={{ fontSize: 12, color: IMPERIAL.textTertiary }}>

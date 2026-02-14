@@ -1,4 +1,3 @@
-import GoldenEagle from '@/components/icons/GoldenEagle';
 import { useSettingsStore } from '@/lib/stores/settings-store';
 import { IMPERIAL } from '@/lib/theme';
 import {
@@ -181,9 +180,7 @@ export default function SettingsScreen() {
               borderColor: IMPERIAL.border,
               alignItems: 'center',
               justifyContent: 'center',
-            }}>
-            <GoldenEagle size={30} />
-          </View>
+            }}></View>
         </View>
       </View>
 
@@ -277,7 +274,6 @@ export default function SettingsScreen() {
       </View>
 
       <View style={{ alignItems: 'center', paddingVertical: 12 }}>
-        <GoldenEagle size={24} />
         <Text style={{ fontSize: 11, color: IMPERIAL.textTertiary, marginTop: 4 }}>
           سوريا AI v1.0.0
         </Text>
