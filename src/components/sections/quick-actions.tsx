@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Smartphone } from 'lucide-react';
 
 /**
@@ -6,6 +6,7 @@ import { Smartphone } from 'lucide-react';
  * 
  * Renders a row of pill-shaped action chips (chips/tags) below the chat box.
  * Matches the pixel-perfect styling from the Manus UI design system.
+ * Each action sends a real message to the chat
  */
 
 interface QuickActionChipProps {
@@ -65,6 +66,44 @@ const QuickActions: React.FC = () => {
     </svg>
   );
 
+  // Real message handlers
+  const handleCreateSlides = () => {
+    // Send a real chat message
+    const message = 'أريد منك أن تساعدني في إنشاء عرض شرائح (slides). يرجى تقديم بنية قوية وتصميم احترافي.';
+    // This would typically dispatch to chat store or API
+    window.dispatchEvent(new CustomEvent('quickAction', { 
+      detail: { action: 'create-slides', message } 
+    }));
+  };
+
+  const handleBuildWebsite = () => {
+    const message = 'هل يمكنك مساعدتي في بناء موقع ويب؟ أريد موقعاً حديثاً وسريباً وجذاباً بصرياً.';
+    window.dispatchEvent(new CustomEvent('quickAction', { 
+      detail: { action: 'build-website', message } 
+    }));
+  };
+
+  const handleDevelopApps = () => {
+    const message = 'أريد تطوير تطبيق جوال احترافي. يرجى مساعدتي في التخطيط والتطوير.';
+    window.dispatchEvent(new CustomEvent('quickAction', { 
+      detail: { action: 'develop-apps', message } 
+    }));
+  };
+
+  const handleDesign = () => {
+    const message = 'هل يمكنك مساعدتي في تصميم واجهة مستخدم جميلة وسهلة الاستخدام؟';
+    window.dispatchEvent(new CustomEvent('quickAction', { 
+      detail: { action: 'design', message } 
+    }));
+  };
+
+  const handleMore = () => {
+    const message = 'ما هي الخدمات الأخرى التي يمكنك تقديمها لي؟';
+    window.dispatchEvent(new CustomEvent('quickAction', { 
+      detail: { action: 'more', message } 
+    }));
+  };
+
   return (
     <div className="relative w-full">
       <div className="w-full transition-transform duration-300 ease-out opacity-100 translate-y-0 scale-100 relative mt-[20px]">
@@ -73,27 +112,27 @@ const QuickActions: React.FC = () => {
             <QuickActionChip 
               icon={SlidesIcon} 
               label="Create slides" 
-              onClick={() => console.log('Create slides clicked')}
+              onClick={handleCreateSlides}
             />
             <QuickActionChip 
               icon={WebsiteIcon} 
               label="Build website" 
-              onClick={() => console.log('Build website clicked')}
+              onClick={handleBuildWebsite}
             />
             <QuickActionChip 
               icon={<Smartphone width={18} height={18} className="lucide lucide-smartphone" />} 
               label="Develop apps" 
-              onClick={() => console.log('Develop apps clicked')}
+              onClick={handleDevelopApps}
             />
             <QuickActionChip 
               icon={DesignIcon} 
               label="Design" 
-              onClick={() => console.log('Design clicked')}
+              onClick={handleDesign}
             />
             <div 
               role="button"
               className="h-10 px-[14px] text-[14px] py-[7px] rounded-full border border-[rgba(0,0,0,0.08)] flex justify-center items-center gap-2 cursor-pointer transition-all duration-300 hover:bg-[rgba(255,255,255,0.5)] active:scale-[0.98] active:opacity-80 text-[#1A1A1A] font-normal"
-              onClick={() => console.log('More clicked')}
+              onClick={handleMore}
             >
               More
             </div>

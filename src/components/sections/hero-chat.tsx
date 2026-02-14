@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { 
   ArrowUp, 
   Smartphone, 
@@ -17,6 +18,7 @@ import {
  */
 export default function HeroChat() {
   const [inputValue, setInputValue] = useState("");
+  const router = useRouter();
 
   const suggestionTags = [
     { icon: <Presentation size={18} />, label: "Create slides" },
@@ -43,7 +45,7 @@ export default function HeroChat() {
             <div className="flex-1 overflow-auto ps-4 pe-4 min-h-[46px] w-full">
               <textarea
                 className="w-full h-full bg-transparent border-none outline-none resize-none text-[15px] leading-[24px] text-[var(--text-primary)] placeholder:text-[var(--muted-foreground)]"
-                placeholder="Assign a task or ask anything"
+                placeholder="اكتب طلبك أو سؤالك هنا"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 rows={2}
@@ -61,12 +63,16 @@ export default function HeroChat() {
               </button>
 
               {/* Send Button */}
-              <button 
+              <button
                 type="button"
                 disabled={!inputValue.trim()}
+                onClick={() => {
+                  if (!inputValue.trim()) return;
+                  router.push({ pathname: '/(tabs)/chat', params: { initialMessage: inputValue.trim() } });
+                }}
                 className={`w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 ${
-                  inputValue.trim() 
-                    ? "bg-black text-white hover:opacity-90 active:scale-95" 
+                  inputValue.trim()
+                    ? "bg-black text-white hover:opacity-90 active:scale-95"
                     : "bg-[rgba(0,0,0,0.04)] text-[rgba(0,0,0,0.2)] cursor-not-allowed"
                 }`}
               >
@@ -83,6 +89,10 @@ export default function HeroChat() {
               <button
                 key={index}
                 className="h-10 px-[14px] py-[7px] rounded-full border border-[rgba(0,0,0,0.08)] flex justify-center items-center gap-2 glass-hover bg-[rgba(255,255,255,0.3)] transition-colors clickable flex-shrink-0"
+                onClick={() => {
+                  setInputValue(tag.label);
+                  router.push({ pathname: '/(tabs)/chat', params: { initialMessage: tag.label } });
+                }}
               >
                 <span className="text-[var(--text-secondary)]">{tag.icon}</span>
                 <span className="text-[var(--text-primary)] text-[14px] font-normal">

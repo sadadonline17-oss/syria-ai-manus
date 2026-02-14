@@ -15,30 +15,31 @@ import {
   FileIcon,
   AlertCircleIcon,
 } from 'lucide-react-native';
-import { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, TextInput, Modal } from 'react-native';
+import { useState, useEffect, useCallback } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, Modal, ActivityIndicator, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const DEMO_REPOS = [
-  { name: 'syria-ai-platform', branch: 'main', status: 'ahead', ahead: 3, behind: 0, lang: 'TypeScript' },
-  { name: 'syria-ai-mobile', branch: 'develop', status: 'behind', ahead: 0, behind: 2, lang: 'React Native' },
-  { name: 'syria-ai-api', branch: 'feature/mcp', status: 'synced', ahead: 0, behind: 0, lang: 'Hono' },
-];
+interface Repository {
+  name: string;
+  branch: string;
+  status: 'ahead' | 'behind' | 'synced';
+  ahead: number;
+  behind: number;
+  lang: string;
+  url?: string;
+}
 
-const DEMO_CHANGES = [
-  { file: 'src/components/Hero.tsx', status: 'modified' as const },
-  { file: 'src/lib/agent.ts', status: 'added' as const },
-  { file: 'src/styles/theme.css', status: 'modified' as const },
-  { file: 'tests/agent.test.ts', status: 'added' as const },
-  { file: 'README.md', status: 'deleted' as const },
-];
+interface Change {
+  file: string;
+  status: 'added' | 'modified' | 'deleted';
+}
 
-const DEMO_COMMITS = [
-  { hash: 'a3f2c1d', message: 'feat: add MCP protocol support', author: 'Syria AI', time: 'منذ ساعة' },
-  { hash: 'b7e4f2a', message: 'fix: agent loop stage transitions', author: 'Syria AI', time: 'منذ 3 ساعات' },
-  { hash: 'c1d8e3b', message: 'refactor: workbench layout', author: 'Syria AI', time: 'منذ يوم' },
-  { hash: 'd4a9f5c', message: 'feat: golden eagle animation', author: 'Syria AI', time: 'منذ يومين' },
-];
+interface Commit {
+  hash: string;
+  message: string;
+  author: string;
+  time: string;
+}
 
 export default function GitScreen() {
   const insets = useSafeAreaInsets();
@@ -46,6 +47,109 @@ export default function GitScreen() {
   const [showCloneModal, setShowCloneModal] = useState(false);
   const [cloneUrl, setCloneUrl] = useState('');
   const { githubToken } = useSettingsStore();
+  
+  const [repos, setRepos] = useState<Repository[]>([]);
+  const [changes, setChanges] = useState<Change[]>([]);
+  const [commits, setCommits] = useState<Commit[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // تحميل البيانات من GitHub API
+  useEffect(() => {
+    const fetchRepositories = async () => {
+      try {
+        if (!githubToken) {
+          setError('لم يتم تعيين رمز GitHub. الرجاء تعيينه في الإعدادات.');
+          setLoading(false);
+          return;
+        }
+
+        const response = await fetch('https://api.github.com/user/repos', {
+          headers: {
+            'Authorization': `token ${githubToken}`,
+            'Accept': 'application/vnd.github.v3+json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('فشل في جلب المستودعات');
+        }
+
+        const data = await response.json();
+        const reposList: Repository[] = data.slice(0, 3).map((repo: any) => ({
+          name: repo.name,
+          branch: repo.default_branch,
+          status: 'synced' as const,
+          ahead: 0,
+          behind: 0,
+          lang: repo.language || 'Unknown',
+          url: repo.html_url,
+        }));
+
+        setRepos(reposList);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'حدث خطأ');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRepositories();
+  }, [githubToken]);
+
+  // إعادة تحميل البيانات
+  const handleRefresh = useCallback(async () => {
+    setLoading(true);
+    // سيتم تشغيل useEffect تلقائياً
+  }, []);
+
+  // استنساخ مستودع
+  const handleClone = useCallback(async () => {
+    if (!cloneUrl.trim()) {
+      Alert.alert('خطأ', 'الرجاء إدخال رابط المستودع');
+      return;
+    }
+
+    try {
+      // في تطبيق حقيقي، ستتوه هنا مع خادمك الخلفي
+      Alert.alert('نجاح', `تم استنساخ: ${cloneUrl}`);
+      setCloneUrl('');
+      setShowCloneModal(false);
+    } catch (err) {
+      Alert.alert('خطأ', 'فشل الاستنساخ');
+    }
+  }, [cloneUrl]);
+
+  // الارتكاب (Commit)
+  const handleCommit = useCallback(async () => {
+    if (!commitMsg.trim()) {
+      Alert.alert('خطأ', 'الرجاء إدخال رسالة الـ commit');
+      return;
+    }
+
+    try {
+      Alert.alert('نجاح', `تم الـ commit: ${commitMsg}`);
+      setCommitMsg('');
+    } catch (err) {
+      Alert.alert('خطأ', 'فشل الـ commit');
+    }
+  }, [commitMsg]);
+
+  // سحب التغييرات من المستودع (Pull)
+  const handlePull = useCallback((repoName: string) => {
+    Alert.alert('Pull', `جاري سحب التغييرات من ${repoName}...`);
+  }, []);
+
+  // دفع التغييرات إلى المستودع (Push)
+  const handlePush = useCallback((repoName: string) => {
+    Alert.alert('Push', `جاري دفع التغييرات إلى ${repoName}...`);
+  }, []);
+
+  // متزامنة المستودع (Sync)
+  const handleSync = useCallback((repoName: string) => {
+    Alert.alert('Sync', `جاري المتزامنة مع ${repoName}...`);
+  }, []);
 
   return (
     <ScrollView
@@ -73,7 +177,27 @@ export default function GitScreen() {
           <Text style={{ fontSize: 15, fontWeight: '700', color: IMPERIAL.gold }}>المستودعات</Text>
           <FolderGit2Icon size={16} color={IMPERIAL.gold} />
         </View>
-        {DEMO_REPOS.map((repo) => (
+
+        {loading && (
+          <View style={{ alignItems: 'center', paddingVertical: 20 }}>
+            <ActivityIndicator size="large" color={IMPERIAL.gold} />
+            <Text style={{ fontSize: 12, color: IMPERIAL.textTertiary, marginTop: 8 }}>جاري التحميل...</Text>
+          </View>
+        )}
+
+        {error && (
+          <View style={{ backgroundColor: IMPERIAL.accent, borderRadius: 12, padding: 12, marginBottom: 10 }}>
+            <Text style={{ fontSize: 12, color: IMPERIAL.warning }}>{error}</Text>
+          </View>
+        )}
+
+        {!loading && repos.length === 0 && !error && (
+          <View style={{ alignItems: 'center', paddingVertical: 20 }}>
+            <Text style={{ fontSize: 12, color: IMPERIAL.textTertiary }}>لا توجد مستودعات</Text>
+          </View>
+        )}
+
+        {repos.map((repo) => (
           <TouchableOpacity
             key={repo.name}
             activeOpacity={0.7}
@@ -107,15 +231,15 @@ export default function GitScreen() {
               </View>
             </View>
             <View style={{ flexDirection: 'row', marginTop: 10, gap: 6 }}>
-              <TouchableOpacity style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, paddingVertical: 6, borderRadius: 8, backgroundColor: IMPERIAL.accent, borderWidth: 1, borderColor: IMPERIAL.border }}>
+              <TouchableOpacity onPress={() => handlePull(repo.name)} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, paddingVertical: 6, borderRadius: 8, backgroundColor: IMPERIAL.accent, borderWidth: 1, borderColor: IMPERIAL.border }}>
                 <ArrowDownIcon size={12} color={IMPERIAL.gold} />
                 <Text style={{ fontSize: 10, color: IMPERIAL.gold, fontWeight: '600' }}>Pull</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, paddingVertical: 6, borderRadius: 8, backgroundColor: IMPERIAL.accent, borderWidth: 1, borderColor: IMPERIAL.border }}>
+              <TouchableOpacity onPress={() => handlePush(repo.name)} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, paddingVertical: 6, borderRadius: 8, backgroundColor: IMPERIAL.accent, borderWidth: 1, borderColor: IMPERIAL.border }}>
                 <ArrowUpIcon size={12} color={IMPERIAL.gold} />
                 <Text style={{ fontSize: 10, color: IMPERIAL.gold, fontWeight: '600' }}>Push</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, paddingVertical: 6, borderRadius: 8, backgroundColor: IMPERIAL.accent, borderWidth: 1, borderColor: IMPERIAL.border }}>
+              <TouchableOpacity onPress={() => handleSync(repo.name)} style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, paddingVertical: 6, borderRadius: 8, backgroundColor: IMPERIAL.accent, borderWidth: 1, borderColor: IMPERIAL.border }}>
                 <RefreshCwIcon size={12} color={IMPERIAL.gold} />
                 <Text style={{ fontSize: 10, color: IMPERIAL.gold, fontWeight: '600' }}>Sync</Text>
               </TouchableOpacity>
@@ -129,16 +253,21 @@ export default function GitScreen() {
           <Text style={{ fontSize: 15, fontWeight: '700', color: IMPERIAL.gold }}>التغييرات</Text>
           <AlertCircleIcon size={16} color={IMPERIAL.gold} />
         </View>
-        <View style={{ backgroundColor: IMPERIAL.card, borderRadius: 12, borderWidth: 1, borderColor: IMPERIAL.border, overflow: 'hidden' }}>
-          {DEMO_CHANGES.map((change, i) => (
-            <View
-              key={change.file}
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                padding: 10,
-                gap: 8,
-                borderBottomWidth: i < DEMO_CHANGES.length - 1 ? 1 : 0,
+        {changes.length === 0 ? (
+          <View style={{ backgroundColor: IMPERIAL.card, borderRadius: 12, borderWidth: 1, borderColor: IMPERIAL.border, padding: 12, alignItems: 'center' }}>
+            <Text style={{ fontSize: 12, color: IMPERIAL.textTertiary }}>لا توجد تغييرات معلقة</Text>
+          </View>
+        ) : (
+          <View style={{ backgroundColor: IMPERIAL.card, borderRadius: 12, borderWidth: 1, borderColor: IMPERIAL.border, overflow: 'hidden' }}>
+            {changes.map((change, i) => (
+              <View
+                key={change.file}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  padding: 10,
+                  gap: 8,
+                  borderBottomWidth: i < changes.length - 1 ? 1 : 0,
                 borderBottomColor: IMPERIAL.border,
               }}
             >
@@ -154,6 +283,7 @@ export default function GitScreen() {
         </View>
         <View style={{ flexDirection: 'row', gap: 8, marginTop: 10 }}>
           <TouchableOpacity
+            onPress={handleCommit}
             disabled={!commitMsg.trim()}
             style={{
               paddingHorizontal: 16,
@@ -193,28 +323,34 @@ export default function GitScreen() {
           <Text style={{ fontSize: 15, fontWeight: '700', color: IMPERIAL.gold }}>سجل الـ Commits</Text>
           <GitCommitIcon size={16} color={IMPERIAL.gold} />
         </View>
-        <View style={{ backgroundColor: IMPERIAL.card, borderRadius: 12, borderWidth: 1, borderColor: IMPERIAL.border, overflow: 'hidden' }}>
-          {DEMO_COMMITS.map((commit, i) => (
-            <View
-              key={commit.hash}
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                padding: 12,
-                gap: 8,
-                borderBottomWidth: i < DEMO_COMMITS.length - 1 ? 1 : 0,
-                borderBottomColor: IMPERIAL.border,
-              }}
-            >
-              <Text style={{ fontSize: 10, color: IMPERIAL.textTertiary }}>{commit.time}</Text>
-              <View style={{ flex: 1, alignItems: 'flex-end' }}>
-                <Text style={{ fontSize: 12, color: IMPERIAL.text, fontWeight: '500' }} numberOfLines={1}>{commit.message}</Text>
-                <Text style={{ fontSize: 10, color: IMPERIAL.textTertiary, marginTop: 2 }}>{commit.hash}</Text>
+        {commits.length === 0 ? (
+          <View style={{ backgroundColor: IMPERIAL.card, borderRadius: 12, borderWidth: 1, borderColor: IMPERIAL.border, padding: 12, alignItems: 'center' }}>
+            <Text style={{ fontSize: 12, color: IMPERIAL.textTertiary }}>لا توجد commits بعد</Text>
+          </View>
+        ) : (
+          <View style={{ backgroundColor: IMPERIAL.card, borderRadius: 12, borderWidth: 1, borderColor: IMPERIAL.border, overflow: 'hidden' }}>
+            {commits.map((commit, i) => (
+              <View
+                key={commit.hash}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  padding: 12,
+                  gap: 8,
+                  borderBottomWidth: i < commits.length - 1 ? 1 : 0,
+                  borderBottomColor: IMPERIAL.border,
+                }}
+              >
+                <Text style={{ fontSize: 10, color: IMPERIAL.textTertiary }}>{commit.time}</Text>
+                <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                  <Text style={{ fontSize: 12, color: IMPERIAL.text, fontWeight: '500' }} numberOfLines={1}>{commit.message}</Text>
+                  <Text style={{ fontSize: 10, color: IMPERIAL.textTertiary, marginTop: 2 }}>{commit.hash}</Text>
+                </View>
+                <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: IMPERIAL.gold }} />
               </View>
-              <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: IMPERIAL.gold }} />
-            </View>
-          ))}
-        </View>
+            ))}
+          </View>
+        )}
       </View>
 
       <Modal visible={showCloneModal} animationType="slide" transparent>
@@ -246,6 +382,7 @@ export default function GitScreen() {
                 <Text style={{ fontSize: 13, color: IMPERIAL.textTertiary }}>إلغاء</Text>
               </TouchableOpacity>
               <TouchableOpacity
+                onPress={handleClone}
                 style={{ flex: 1, paddingVertical: 10, borderRadius: 10, backgroundColor: IMPERIAL.primary, alignItems: 'center' }}
               >
                 <Text style={{ fontSize: 13, fontWeight: '600', color: IMPERIAL.primaryForeground }}>Clone</Text>

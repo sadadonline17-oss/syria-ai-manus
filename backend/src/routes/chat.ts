@@ -33,7 +33,6 @@ chat.post('/', async (c) => {
       model: modelInstance,
       messages: allMessages,
       tools: manusTools,
-      maxSteps: 5, // Enable multi-step reasoning like Manus
       maxOutputTokens: maxTokens || 4096,
       temperature: temperature ?? 0.7,
       onFinish: async ({ text }) => {
