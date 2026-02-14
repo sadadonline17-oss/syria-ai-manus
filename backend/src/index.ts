@@ -4,6 +4,8 @@ import chat from './routes/chat';
 import models from './routes/models';
 import providers from './routes/providers';
 import integrations from './routes/integrations';
+import terminal from './routes/terminal';
+import agent from './routes/agent';
 
 const app = new Hono();
 
@@ -27,6 +29,8 @@ app.route('/api/chat', chat);
 app.route('/api/models', models);
 app.route('/api/providers', providers);
 app.route('/api/integrations', integrations);
+app.route('/api/terminal', terminal);
+app.route('/api/agent', agent);
 
 export default {
   fetch: app.fetch,

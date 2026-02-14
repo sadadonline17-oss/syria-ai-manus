@@ -23,32 +23,73 @@ export interface EditorTab {
   cursorCol: number;
 }
 
+export interface TerminalLine {
+  id: string;
+  type: 'input' | 'output' | 'error' | 'system' | 'success';
+  content: string;
+  timestamp: number;
+}
+
 export type PanelType = 'editor' | 'terminal' | 'preview' | 'problems' | 'output' | 'git' | 'agent';
 export type BottomPanelType = 'terminal' | 'problems' | 'output' | 'agent';
 
+export type AgentStage = 
+  | 'idle'
+  | 'planning'
+  | 'researching'
+  | 'coding'
+  | 'testing'
+  | 'reviewing'
+  | 'refining'
+  | 'deploying'
+  | 'completed'
+  | 'error';
+
 interface WorkbenchState {
+  // File Tree
   fileTree: FileNode[];
+  selectedFilePath: string | null;
+  setFileTree: (tree: FileNode[]) => void;
+  toggleFolder: (path: string) => void;
+  openFile: (node: FileNode) => void;
+  
+  // Editor Tabs
   openTabs: EditorTab[];
   activeTabId: string | null;
+  closeTab: (id: string) => void;
+  setActiveTab: (id: string) => void;
+  updateTabContent: (id: string, content: string) => void;
+  
+  // UI State
   showFileTree: boolean;
   showBottomPanel: boolean;
   bottomPanelType: BottomPanelType;
   showPreview: boolean;
   previewUrl: string;
-  selectedFilePath: string | null;
-
-  setFileTree: (tree: FileNode[]) => void;
-  toggleFolder: (path: string) => void;
-  openFile: (node: FileNode) => void;
-  closeTab: (id: string) => void;
-  setActiveTab: (id: string) => void;
-  updateTabContent: (id: string, content: string) => void;
   toggleFileTree: () => void;
   toggleBottomPanel: () => void;
   setBottomPanelType: (type: BottomPanelType) => void;
   togglePreview: () => void;
   setPreviewUrl: (url: string) => void;
   setSelectedFilePath: (path: string | null) => void;
+  
+  // Terminal State
+  terminalLines: TerminalLine[];
+  terminalPath: string;
+  addTerminalLine: (type: TerminalLine['type'], content: string) => void;
+  clearTerminal: () => void;
+  setTerminalPath: (path: string) => void;
+  
+  // Agent State
+  agentStage: AgentStage;
+  agentProgress: number;
+  agentIsRunning: boolean;
+  agentMessages: Array<{ role: string; content: string; stage?: AgentStage }>;
+  setAgentStage: (stage: AgentStage) => void;
+  setAgentProgress: (progress: number) => void;
+  setAgentIsRunning: (running: boolean) => void;
+  addAgentMessage: (role: string, content: string, stage?: AgentStage) => void;
+  clearAgentMessages: () => void;
 }
 
 function getLanguage(filename: string): string {
@@ -202,19 +243,28 @@ const DEMO_FILE_TREE: FileNode[] = [
   },
 ];
 
+const DEFAULT_TERMINAL_LINES: TerminalLine[] = [
+  {
+    id: '1',
+    type: 'system',
+    content: 'سوريا AI Terminal - الإصدار 1.0.0',
+    timestamp: Date.now(),
+  },
+  {
+    id: '2',
+    type: 'system',
+    content: 'اكتب "مساعدة" أو "help" للحصول على قائمة الأوامر',
+    timestamp: Date.now(),
+  },
+];
+
+let lineIdCounter = 3;
+
 export const useWorkbenchStore = create<WorkbenchState>((set, get) => ({
+  // File Tree
   fileTree: DEMO_FILE_TREE,
-  openTabs: [],
-  activeTabId: null,
-  showFileTree: true,
-  showBottomPanel: false,
-  bottomPanelType: 'terminal',
-  showPreview: false,
-  previewUrl: 'http://localhost:3000',
   selectedFilePath: null,
-
   setFileTree: (tree) => set({ fileTree: tree }),
-
   toggleFolder: (path) => {
     const toggle = (nodes: FileNode[]): FileNode[] =>
       nodes.map((n) =>
@@ -226,7 +276,6 @@ export const useWorkbenchStore = create<WorkbenchState>((set, get) => ({
       );
     set((s) => ({ fileTree: toggle(s.fileTree) }));
   },
-
   openFile: (node) => {
     if (node.type !== 'file') return;
     const state = get();
@@ -252,6 +301,9 @@ export const useWorkbenchStore = create<WorkbenchState>((set, get) => ({
     }));
   },
 
+  // Editor Tabs
+  openTabs: [],
+  activeTabId: null,
   closeTab: (id) => {
     set((s) => {
       const filtered = s.openTabs.filter((t) => t.id !== id);
@@ -262,19 +314,52 @@ export const useWorkbenchStore = create<WorkbenchState>((set, get) => ({
       return { openTabs: filtered, activeTabId: newActive };
     });
   },
-
   setActiveTab: (id) => set({ activeTabId: id }),
-
   updateTabContent: (id, content) => {
     set((s) => ({
       openTabs: s.openTabs.map((t) => (t.id === id ? { ...t, content, isModified: true } : t)),
     }));
   },
 
+  // UI State
+  showFileTree: true,
+  showBottomPanel: false,
+  bottomPanelType: 'terminal',
+  showPreview: false,
+  previewUrl: 'http://localhost:3000',
   toggleFileTree: () => set((s) => ({ showFileTree: !s.showFileTree })),
   toggleBottomPanel: () => set((s) => ({ showBottomPanel: !s.showBottomPanel })),
   setBottomPanelType: (type) => set({ bottomPanelType: type, showBottomPanel: true }),
   togglePreview: () => set((s) => ({ showPreview: !s.showPreview })),
   setPreviewUrl: (url) => set({ previewUrl: url }),
   setSelectedFilePath: (path) => set({ selectedFilePath: path }),
+
+  // Terminal State
+  terminalLines: DEFAULT_TERMINAL_LINES,
+  terminalPath: '/data/data/com.termux/files/home/syria-ai-manus',
+  addTerminalLine: (type, content) => {
+    set((s) => ({
+      terminalLines: [
+        ...s.terminalLines,
+        { id: String(lineIdCounter++), type, content, timestamp: Date.now() },
+      ],
+    }));
+  },
+  clearTerminal: () => set({ terminalLines: DEFAULT_TERMINAL_LINES }),
+  setTerminalPath: (path) => set({ terminalPath: path }),
+
+  // Agent State
+  agentStage: 'idle',
+  agentProgress: 0,
+  agentIsRunning: false,
+  agentMessages: [],
+  setAgentStage: (stage) => set({ agentStage: stage }),
+  setAgentProgress: (progress) => set({ agentProgress: progress }),
+  setAgentIsRunning: (running) => set({ agentIsRunning: running }),
+  addAgentMessage: (role, content, stage) => {
+    set((s) => ({
+      agentMessages: [...s.agentMessages, { role, content, stage }],
+    }));
+  },
+  clearAgentMessages: () => set({ agentMessages: [], agentStage: 'idle', agentProgress: 0 }),
 }));
