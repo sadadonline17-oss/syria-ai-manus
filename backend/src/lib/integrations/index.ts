@@ -8,6 +8,12 @@ export * from './slack';
 export * from './stripe';
 export * from './twilio';
 export * from './vercel';
+export * from './telegram';
+export * from './whatsapp';
+export * from './messenger';
+export * from './line';
+export * from './discord';
+export * from './expo';
 
 // Re-export factory functions
 export { createGitHubIntegration, GitHubIntegration } from './github';
@@ -15,6 +21,12 @@ export { createSlackIntegration, SlackIntegration } from './slack';
 export { createStripeIntegration, StripeIntegration } from './stripe';
 export { createTwilioIntegration, TwilioIntegration } from './twilio';
 export { createVercelIntegration, VercelIntegration } from './vercel';
+export { createTelegramIntegration, TelegramIntegration } from './telegram';
+export { createWhatsAppIntegration, WhatsAppIntegration } from './whatsapp';
+export { createMessengerIntegration, MessengerIntegration } from './messenger';
+export { createLINEIntegration, LINEIntegration } from './line';
+export { createDiscordIntegration, DiscordIntegration } from './discord';
+export { createExpoIntegration, ExpoIntegration } from './expo';
 
 // Integration status checker
 export interface IntegrationStatus {
@@ -115,6 +127,114 @@ export async function checkIntegrations(): Promise<IntegrationStatus[]> {
     }
   } else {
     statuses.push({ name: 'Vercel', configured: false, connected: false });
+  }
+
+  // Check Telegram
+  const telegram = createTelegramIntegration();
+  if (telegram) {
+    try {
+      await telegram.getMe();
+      statuses.push({ name: 'Telegram', configured: true, connected: true });
+    } catch (error) {
+      statuses.push({ 
+        name: 'Telegram', 
+        configured: true, 
+        connected: false, 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      });
+    }
+  } else {
+    statuses.push({ name: 'Telegram', configured: false, connected: false });
+  }
+
+  // Check WhatsApp
+  const whatsapp = createWhatsAppIntegration();
+  if (whatsapp) {
+    try {
+      await whatsapp.testConnection();
+      statuses.push({ name: 'WhatsApp', configured: true, connected: true });
+    } catch (error) {
+      statuses.push({ 
+        name: 'WhatsApp', 
+        configured: true, 
+        connected: false, 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      });
+    }
+  } else {
+    statuses.push({ name: 'WhatsApp', configured: false, connected: false });
+  }
+
+  // Check Messenger
+  const messenger = createMessengerIntegration();
+  if (messenger) {
+    try {
+      await messenger.testConnection();
+      statuses.push({ name: 'Messenger', configured: true, connected: true });
+    } catch (error) {
+      statuses.push({ 
+        name: 'Messenger', 
+        configured: true, 
+        connected: false, 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      });
+    }
+  } else {
+    statuses.push({ name: 'Messenger', configured: false, connected: false });
+  }
+
+  // Check LINE
+  const line = createLINEIntegration();
+  if (line) {
+    try {
+      await line.testConnection();
+      statuses.push({ name: 'LINE', configured: true, connected: true });
+    } catch (error) {
+      statuses.push({ 
+        name: 'LINE', 
+        configured: true, 
+        connected: false, 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      });
+    }
+  } else {
+    statuses.push({ name: 'LINE', configured: false, connected: false });
+  }
+
+  // Check Discord
+  const discord = createDiscordIntegration();
+  if (discord) {
+    try {
+      await discord.testConnection();
+      statuses.push({ name: 'Discord', configured: true, connected: true });
+    } catch (error) {
+      statuses.push({ 
+        name: 'Discord', 
+        configured: true, 
+        connected: false, 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      });
+    }
+  } else {
+    statuses.push({ name: 'Discord', configured: false, connected: false });
+  }
+
+  // Check Expo
+  const expo = createExpoIntegration();
+  if (expo) {
+    try {
+      await expo.testConnection();
+      statuses.push({ name: 'Expo', configured: true, connected: true });
+    } catch (error) {
+      statuses.push({ 
+        name: 'Expo', 
+        configured: true, 
+        connected: false, 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      });
+    }
+  } else {
+    statuses.push({ name: 'Expo', configured: false, connected: false });
   }
 
   return statuses;

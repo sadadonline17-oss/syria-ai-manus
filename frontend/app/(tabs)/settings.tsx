@@ -54,6 +54,17 @@ const PROVIDER_KEYS = [
     placeholder: 'sk_test_...',
   },
   { provider: 'OpenAI', envKey: 'OPENAI_API_KEY', label: 'OpenAI API Key', placeholder: 'sk-...' },
+  // Messaging Platforms
+  { provider: 'Telegram', envKey: 'TELEGRAM_BOT_TOKEN', label: 'Telegram Bot Token', placeholder: '123456789:ABCdefGHIjklMNOpqrsTUVwxyz' },
+  { provider: 'WhatsApp', envKey: 'WHATSAPP_FROM_NUMBER', label: 'WhatsApp From Number', placeholder: '+1234567890' },
+  { provider: 'Messenger', envKey: 'MESSENGER_PAGE_ACCESS_TOKEN', label: 'Messenger Page Token', placeholder: 'EAAC...' },
+  { provider: 'Messenger', envKey: 'MESSENGER_PAGE_ID', label: 'Messenger Page ID', placeholder: '123456789' },
+  { provider: 'LINE', envKey: 'LINE_CHANNEL_ACCESS_TOKEN', label: 'LINE Channel Access Token', placeholder: 'AbCdEfGh...' },
+  { provider: 'LINE', envKey: 'LINE_CHANNEL_SECRET', label: 'LINE Channel Secret', placeholder: 'secret...' },
+  { provider: 'Discord', envKey: 'DISCORD_BOT_TOKEN', label: 'Discord Bot Token', placeholder: 'MTEwNTc...' },
+  // Expo
+  { provider: 'Expo', envKey: 'EXPO_ACCESS_TOKEN', label: 'Expo Access Token', placeholder: 'your-expo-token' },
+  { provider: 'Expo', envKey: 'EXPO_PROJECT_SLUG', label: 'Expo Project Slug', placeholder: 'your-app-slug' },
 ];
 
 const settingsGroups = [
@@ -77,6 +88,58 @@ const settingsGroups = [
         label: 'إعدادات OpenAI',
         subtitle: 'ربط محرك الذكاء الاصطناعي',
         action: 'apikeys',
+      },
+    ],
+  },
+  {
+    title: 'منصات المراسلة',
+    items: [
+      {
+        icon: SmartphoneIcon,
+        label: 'Telegram',
+        subtitle: 'بوت الذكاء الاصطناعي على تيليجرام',
+        action: 'apikeys',
+        badge: 'جديد',
+      },
+      {
+        icon: SmartphoneIcon,
+        label: 'WhatsApp',
+        subtitle: 'الذكاء الاصطناعي على واتساب',
+        action: 'apikeys',
+        badge: 'قريباً',
+      },
+      {
+        icon: SmartphoneIcon,
+        label: 'Messenger',
+        subtitle: 'الذكاء الاصطناعي على ماسنجر',
+        action: 'apikeys',
+        badge: 'قريباً',
+      },
+      {
+        icon: SmartphoneIcon,
+        label: 'LINE',
+        subtitle: 'الذكاء الاصطناعي على لاين',
+        action: 'apikeys',
+        badge: 'قريباً',
+      },
+      {
+        icon: SmartphoneIcon,
+        label: 'Discord',
+        subtitle: 'الذكاء الاصطناعي على ديسكورد',
+        action: 'apikeys',
+        badge: 'جديد',
+      },
+    ],
+  },
+  {
+    title: 'نشر التطبيقات',
+    items: [
+      {
+        icon: SmartphoneIcon,
+        label: 'Expo EAS',
+        subtitle: 'نشر التطبيقات على متجر التطبيقات',
+        action: 'apikeys',
+        badge: 'جديد',
       },
     ],
   },
