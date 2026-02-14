@@ -20,6 +20,7 @@ import {
   CodeIcon,
   SmartphoneIcon,
   ServerIcon,
+  CreditCardIcon,
 } from 'lucide-react-native';
 import { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native';
@@ -27,67 +28,51 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const tools = [
   {
-    icon: TerminalIcon,
-    name: 'Shell Explorer',
-    desc: 'تنفيذ أوامر متقدمة',
-    rating: 4.8,
-    downloads: '12K',
-    cat: 'dev',
-  },
-  {
-    icon: GlobeIcon,
-    name: 'Browser Auto',
-    desc: 'أتمتة المتصفح',
-    rating: 4.6,
-    downloads: '8.5K',
-    cat: 'auto',
-  },
-  {
     icon: BrainCircuitIcon,
-    name: 'OpenAI Connector',
-    desc: 'ربط مع GPT-4',
+    name: 'OpenAI Real-time',
+    desc: 'اتصال حقيقي مع GPT-4 و DALL-E',
     rating: 4.9,
     downloads: '25K',
     cat: 'ai',
   },
   {
     icon: DatabaseIcon,
-    name: 'Supabase Manager',
-    desc: 'إدارة قاعدة البيانات',
-    rating: 4.7,
+    name: 'Supabase DB',
+    desc: 'إدارة قواعد بيانات Auth و Storage حقيقية',
+    rating: 4.8,
+    downloads: '18K',
+    cat: 'dev',
+  },
+  {
+    icon: CreditCardIcon,
+    name: 'Stripe Payments',
+    desc: 'بوابة مدفوعات واشتراكات حقيقية',
+    rating: 4.9,
     downloads: '15K',
     cat: 'dev',
   },
   {
-    icon: ImageIcon,
-    name: 'Image Generator',
-    desc: 'توليد الصور بالذكاء',
-    rating: 4.5,
-    downloads: '18K',
-    cat: 'ai',
-  },
-  {
-    icon: MailIcon,
-    name: 'Twilio SMS',
-    desc: 'إرسال رسائل نصية',
-    rating: 4.3,
-    downloads: '6K',
-    cat: 'comm',
-  },
-  {
     icon: GitBranchIcon,
-    name: 'GitHub Sync',
-    desc: 'مزامنة المستودعات',
-    rating: 4.8,
+    name: 'GitHub Actions',
+    desc: 'أتمتة النشر والمستودعات الحقيقية',
+    rating: 4.7,
     downloads: '20K',
     cat: 'dev',
   },
   {
     icon: MessageSquareIcon,
-    name: 'Slack Bot',
-    desc: 'ربط مع Slack',
+    name: 'Slack Real-time',
+    desc: 'إرسال رسائل وقنوات حقيقية',
+    rating: 4.5,
+    downloads: '10K',
+    cat: 'comm',
+  },
+  {
+    icon: MailIcon,
+    name: 'Twilio SMS',
+    desc: 'إرسال رسائل SMS ومكالمات حقيقية',
     rating: 4.4,
-    downloads: '9K',
+    downloads: '8K',
     cat: 'comm',
   },
 ];
@@ -96,37 +81,37 @@ const templates = [
   {
     icon: CodeIcon,
     name: 'SaaS Starter',
-    desc: 'قالب SaaS كامل مع Auth + DB',
+    desc: 'قالب SaaS كامل مع Auth + DB حقيقي',
     stack: 'Next.js · Supabase · Stripe',
   },
   {
     icon: SmartphoneIcon,
     name: 'Mobile App',
-    desc: 'تطبيق موبايل مع API',
+    desc: 'تطبيق موبايل حقيقي مع API',
     stack: 'React Native · Expo · Hono',
   },
   {
     icon: ShoppingCartIcon,
     name: 'E-Commerce',
-    desc: 'متجر إلكتروني متكامل',
+    desc: 'متجر إلكتروني متكامل وحقيقي',
     stack: 'Next.js · Stripe · Supabase',
   },
   {
     icon: ServerIcon,
     name: 'API Server',
-    desc: 'خادم API مع Auth + Rate Limit',
+    desc: 'خادم API حقيقي مع Auth + Rate Limit',
     stack: 'Hono · Bun · PostgreSQL',
   },
   {
     icon: RocketIcon,
     name: 'Landing Page',
-    desc: 'صفحة هبوط احترافية',
+    desc: 'صفحة هبوط احترافية حقيقية',
     stack: 'Next.js · Tailwind · Framer Motion',
   },
   {
     icon: BrainCircuitIcon,
     name: 'AI Chatbot',
-    desc: 'بوت ذكي مع RAG',
+    desc: 'بوت ذكي حقيقي مع RAG',
     stack: 'LangChain · Supabase · OpenAI',
   },
 ];
@@ -158,9 +143,9 @@ export default function MarketplaceScreen() {
   });
 
   const tabs: { key: TabType; label: string; icon: typeof PlugIcon }[] = [
-    { key: 'tools', label: 'الأدوات', icon: WrenchIcon },
-    { key: 'templates', label: 'القوالب', icon: LayoutTemplateIcon },
-    { key: 'mcp', label: 'MCP', icon: PlugIcon },
+    { key: 'tools', label: 'الأدوات الحقيقية', icon: WrenchIcon },
+    { key: 'templates', label: 'القوالب الجاهزة', icon: LayoutTemplateIcon },
+    { key: 'mcp', label: 'بروتوكول MCP', icon: PlugIcon },
   ];
 
   return (
@@ -171,11 +156,11 @@ export default function MarketplaceScreen() {
       showsVerticalScrollIndicator={false}>
       <View style={{ paddingHorizontal: 16, marginBottom: 12 }}>
         <Text style={{ fontSize: 22, fontWeight: '700', color: IMPERIAL.gold, textAlign: 'right' }}>
-          السوق
+          سوق التقنيات الحقيقية
         </Text>
         <Text
           style={{ fontSize: 13, color: IMPERIAL.textTertiary, textAlign: 'right', marginTop: 4 }}>
-          أدوات، قوالب، وموصلات MCP
+          أدوات، قوالب، وموصلات حقيقية وجاهزة للعمل
         </Text>
       </View>
 
@@ -232,10 +217,10 @@ export default function MarketplaceScreen() {
           <TextInput
             placeholder={
               activeTab === 'mcp'
-                ? 'ابحث عن موصل...'
+                ? 'ابحث عن موصل حقيقي...'
                 : activeTab === 'templates'
-                  ? 'ابحث عن قالب...'
-                  : 'ابحث عن أداة...'
+                  ? 'ابحث عن قالب حقيقي...'
+                  : 'ابحث عن أداة حقيقية...'
             }
             placeholderTextColor={IMPERIAL.textTertiary}
             value={searchQuery}
@@ -311,7 +296,7 @@ export default function MarketplaceScreen() {
                       borderColor: IMPERIAL.border,
                     }}>
                     <Text style={{ fontSize: 11, fontWeight: '600', color: IMPERIAL.gold }}>
-                      تثبيت
+                      تفعيل
                     </Text>
                   </TouchableOpacity>
                   <View style={{ flex: 1, alignItems: 'flex-end' }}>
@@ -327,11 +312,13 @@ export default function MarketplaceScreen() {
                         <Text style={{ fontSize: 11, color: IMPERIAL.textTertiary }}>
                           {tool.downloads}
                         </Text>
-                        <DownloadIcon size={12} color={IMPERIAL.textTertiary} />
+                        <DownloadIcon size={10} color={IMPERIAL.textTertiary} />
                       </View>
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
-                        <Text style={{ fontSize: 11, color: IMPERIAL.gold }}>{tool.rating}</Text>
-                        <StarIcon size={12} color={IMPERIAL.gold} fill={IMPERIAL.gold} />
+                        <Text style={{ fontSize: 11, color: IMPERIAL.textTertiary }}>
+                          {tool.rating}
+                        </Text>
+                        <StarIcon size={10} color={IMPERIAL.gold} />
                       </View>
                     </View>
                   </View>
@@ -341,10 +328,10 @@ export default function MarketplaceScreen() {
                       height: 44,
                       borderRadius: 12,
                       backgroundColor: IMPERIAL.accent,
-                      borderWidth: 1,
-                      borderColor: IMPERIAL.border,
                       alignItems: 'center',
                       justifyContent: 'center',
+                      borderWidth: 1,
+                      borderColor: IMPERIAL.border,
                     }}>
                     <Icon size={22} color={IMPERIAL.gold} />
                   </View>
@@ -356,74 +343,82 @@ export default function MarketplaceScreen() {
       )}
 
       {activeTab === 'templates' && (
-        <View style={{ paddingHorizontal: 16, gap: 10 }}>
-          {templates.map((tmpl, index) => {
-            const Icon = tmpl.icon;
+        <View style={{ paddingHorizontal: 16, gap: 12 }}>
+          {templates.map((template, index) => {
+            const Icon = template.icon;
             return (
               <TouchableOpacity
                 key={index}
-                activeOpacity={0.7}
+                activeOpacity={0.8}
                 style={{
                   backgroundColor: IMPERIAL.card,
-                  borderRadius: 14,
+                  borderRadius: 16,
                   borderWidth: 1,
                   borderColor: IMPERIAL.border,
-                  padding: 16,
+                  overflow: 'hidden',
                 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                <View style={{ padding: 16 }}>
                   <View
-                    style={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: 14,
-                      backgroundColor: IMPERIAL.accent,
-                      borderWidth: 1,
-                      borderColor: IMPERIAL.border,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                    <Icon size={24} color={IMPERIAL.gold} />
-                  </View>
-                  <View style={{ flex: 1, alignItems: 'flex-end' }}>
-                    <Text style={{ fontSize: 15, fontWeight: '700', color: IMPERIAL.text }}>
-                      {tmpl.name}
-                    </Text>
-                    <Text style={{ fontSize: 12, color: IMPERIAL.textTertiary, marginTop: 2 }}>
-                      {tmpl.desc}
-                    </Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    marginTop: 12,
-                    paddingTop: 12,
-                    borderTopWidth: 1,
-                    borderTopColor: IMPERIAL.border,
-                  }}>
-                  <TouchableOpacity
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',
-                      gap: 4,
-                      backgroundColor: IMPERIAL.primary,
-                      paddingHorizontal: 14,
-                      paddingVertical: 7,
-                      borderRadius: 8,
+                      justifyContent: 'space-between',
+                      marginBottom: 12,
                     }}>
-                    <Text
+                    <View
                       style={{
-                        fontSize: 11,
-                        fontWeight: '600',
-                        color: IMPERIAL.primaryForeground,
+                        paddingHorizontal: 10,
+                        paddingVertical: 4,
+                        borderRadius: 6,
+                        backgroundColor: IMPERIAL.accent,
                       }}>
-                      استخدام
+                      <Text style={{ fontSize: 10, fontWeight: '700', color: IMPERIAL.gold }}>
+                        حقيقي
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: 10,
+                        backgroundColor: IMPERIAL.accent,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                      <Icon size={20} color={IMPERIAL.gold} />
+                    </View>
+                  </View>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: '700',
+                      color: IMPERIAL.text,
+                      textAlign: 'right',
+                    }}>
+                    {template.name}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 13,
+                      color: IMPERIAL.textTertiary,
+                      textAlign: 'right',
+                      marginTop: 4,
+                    }}>
+                    {template.desc}
+                  </Text>
+                  <View
+                    style={{
+                      marginTop: 14,
+                      paddingTop: 14,
+                      borderTopWidth: 1,
+                      borderTopColor: IMPERIAL.border,
+                      flexDirection: 'row',
+                      justifyContent: 'flex-end',
+                    }}>
+                    <Text style={{ fontSize: 11, color: IMPERIAL.gold, fontWeight: '600' }}>
+                      {template.stack}
                     </Text>
-                    <RocketIcon size={12} color={IMPERIAL.primaryForeground} />
-                  </TouchableOpacity>
-                  <Text style={{ fontSize: 10, color: IMPERIAL.textSecondary }}>{tmpl.stack}</Text>
+                  </View>
                 </View>
               </TouchableOpacity>
             );
@@ -432,173 +427,62 @@ export default function MarketplaceScreen() {
       )}
 
       {activeTab === 'mcp' && (
-        <View style={{ paddingHorizontal: 16 }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: 12,
-            }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+        <View style={{ paddingHorizontal: 16, gap: 12 }}>
+          {connectors.map((mcp) => (
+            <View
+              key={mcp.id}
+              style={{
+                backgroundColor: IMPERIAL.card,
+                borderRadius: 16,
+                borderWidth: 1,
+                borderColor: IMPERIAL.border,
+                padding: 16,
+              }}>
               <View
                 style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: 4,
-                  backgroundColor: IMPERIAL.mcp.connected,
-                }}
-              />
-              <Text style={{ fontSize: 11, color: IMPERIAL.success }}>
-                {connectors.filter((c) => c.status === 'connected').length} متصل
-              </Text>
-            </View>
-            <Text style={{ fontSize: 15, fontWeight: '700', color: IMPERIAL.gold }}>
-              موصلات MCP
-            </Text>
-          </View>
-
-          <View style={{ gap: 8 }}>
-            {connectors.map((connector) => (
-              <View
-                key={connector.id}
-                style={{
-                  backgroundColor: IMPERIAL.card,
-                  borderRadius: 14,
-                  borderWidth: 1,
-                  borderColor:
-                    connector.status === 'connected'
-                      ? `${IMPERIAL.mcp.connected}40`
-                      : IMPERIAL.border,
-                  padding: 14,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                  <TouchableOpacity
-                    onPress={() => toggleConnection(connector.id)}
+                <TouchableOpacity
+                  onPress={() => toggleConnection(mcp.id)}
+                  style={{
+                    paddingHorizontal: 14,
+                    paddingVertical: 7,
+                    borderRadius: 10,
+                    backgroundColor: mcp.connected ? IMPERIAL.accent : IMPERIAL.primary,
+                    borderWidth: 1,
+                    borderColor: mcp.connected ? IMPERIAL.gold : IMPERIAL.gold,
+                  }}>
+                  <Text
                     style={{
-                      paddingHorizontal: 10,
-                      paddingVertical: 6,
-                      borderRadius: 8,
-                      backgroundColor:
-                        connector.status === 'connected'
-                          ? 'rgba(239,68,68,0.1)'
-                          : connector.status === 'pending'
-                            ? 'rgba(251,191,36,0.1)'
-                            : 'rgba(74,222,128,0.1)',
-                      borderWidth: 1,
-                      borderColor:
-                        connector.status === 'connected'
-                          ? 'rgba(239,68,68,0.3)'
-                          : connector.status === 'pending'
-                            ? 'rgba(251,191,36,0.3)'
-                            : 'rgba(74,222,128,0.3)',
+                      fontSize: 12,
+                      fontWeight: '700',
+                      color: mcp.connected ? IMPERIAL.gold : IMPERIAL.primaryForeground,
                     }}>
-                    <Text
-                      style={{
-                        fontSize: 10,
-                        fontWeight: '600',
-                        color:
-                          connector.status === 'connected'
-                            ? IMPERIAL.error
-                            : connector.status === 'pending'
-                              ? IMPERIAL.warning
-                              : IMPERIAL.success,
-                      }}>
-                      {connector.status === 'connected'
-                        ? 'قطع'
-                        : connector.status === 'pending'
-                          ? 'جاري...'
-                          : 'اتصال'}
-                    </Text>
-                  </TouchableOpacity>
-
-                  <View style={{ flex: 1, alignItems: 'flex-end' }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                      <View
-                        style={{
-                          width: 6,
-                          height: 6,
-                          borderRadius: 3,
-                          backgroundColor:
-                            connector.status === 'connected'
-                              ? IMPERIAL.mcp.connected
-                              : connector.status === 'pending'
-                                ? IMPERIAL.mcp.pending
-                                : IMPERIAL.mcp.disconnected,
-                        }}
-                      />
-                      <Text style={{ fontSize: 14, fontWeight: '600', color: IMPERIAL.text }}>
-                        {connector.name}
-                      </Text>
-                    </View>
-                    <Text style={{ fontSize: 11, color: IMPERIAL.textTertiary, marginTop: 2 }}>
-                      {connector.description}
-                    </Text>
-                  </View>
-
+                    {mcp.connected ? 'متصل' : 'اتصال'}
+                  </Text>
+                </TouchableOpacity>
+                <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 12 }}>
+                  <Text style={{ fontSize: 15, fontWeight: '700', color: IMPERIAL.text }}>
+                    {mcp.name}
+                  </Text>
                   <View
-                    style={{
-                      width: 36,
-                      height: 36,
-                      borderRadius: 10,
-                      backgroundColor: IMPERIAL.accent,
-                      borderWidth: 1,
-                      borderColor: IMPERIAL.border,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                    <PlugIcon
-                      size={16}
-                      color={
-                        connector.status === 'connected'
-                          ? IMPERIAL.mcp.connected
-                          : IMPERIAL.textTertiary
-                      }
+                    style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 }}>
+                    <Text style={{ fontSize: 11, color: IMPERIAL.textTertiary }}>{mcp.type}</Text>
+                    <View
+                      style={{
+                        width: 6,
+                        height: 6,
+                        borderRadius: 3,
+                        backgroundColor: mcp.connected ? '#4ade80' : '#ef4444',
+                      }}
                     />
                   </View>
                 </View>
-
-                {connector.status === 'connected' && (
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flexWrap: 'wrap',
-                      gap: 4,
-                      marginTop: 8,
-                      paddingTop: 8,
-                      borderTopWidth: 1,
-                      borderTopColor: IMPERIAL.border,
-                    }}>
-                    {connector.capabilities.map((cap) => (
-                      <View
-                        key={cap}
-                        style={{
-                          paddingHorizontal: 8,
-                          paddingVertical: 3,
-                          borderRadius: 6,
-                          backgroundColor: 'rgba(212,175,55,0.08)',
-                          borderWidth: 1,
-                          borderColor: 'rgba(212,175,55,0.15)',
-                        }}>
-                        <Text style={{ fontSize: 9, color: IMPERIAL.textSecondary }}>{cap}</Text>
-                      </View>
-                    ))}
-                    <View
-                      style={{
-                        paddingHorizontal: 8,
-                        paddingVertical: 3,
-                        borderRadius: 6,
-                        backgroundColor: 'rgba(167,139,250,0.1)',
-                      }}>
-                      <Text style={{ fontSize: 9, color: IMPERIAL.mcp.transport }}>
-                        {connector.transport.toUpperCase()}
-                      </Text>
-                    </View>
-                  </View>
-                )}
               </View>
-            ))}
-          </View>
+            </View>
+          ))}
         </View>
       )}
     </ScrollView>

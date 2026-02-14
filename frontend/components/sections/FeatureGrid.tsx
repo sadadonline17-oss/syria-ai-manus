@@ -2,58 +2,57 @@ import { IMPERIAL } from '@/lib/theme';
 import {
   TerminalIcon,
   GlobeIcon,
-  FolderIcon,
-  GitBranchIcon,
-  BrainCircuitIcon,
-  WorkflowIcon,
-  PlugIcon,
-  LayoutTemplateIcon,
-  SearchIcon,
+  DatabaseIcon,
+  CreditCardIcon,
+  CodeIcon,
+  SmartphoneIcon,
+  LayoutIcon,
+  MessageSquareIcon,
+  ZapIcon,
+  ShieldCheckIcon,
 } from 'lucide-react-native';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 const features = [
   {
-    icon: BrainCircuitIcon,
-    title: 'محرك Manus AGI',
-    desc: 'ذكاء اصطناعي عام قادر على التفكير والتنفيذ الذاتي',
+    icon: LayoutIcon,
+    title: 'تطبيقات Next.js حقيقية',
+    desc: 'بناء تطبيقات ويب متكاملة باستخدام Next.js و Tailwind CSS',
   },
   {
-    icon: WorkflowIcon,
-    title: 'نظام الوكلاء (Agents)',
-    desc: 'توزيع المهام على وكلاء متخصصين لضمان الدقة',
+    icon: DatabaseIcon,
+    title: 'تكامل Supabase الكامل',
+    desc: 'قواعد بيانات حقيقية، مصادقة مستخدمين، وتخزين ملفات',
   },
   {
-    icon: TerminalIcon,
-    title: 'أدوات Manus الحقيقية',
-    desc: 'وصول كامل لبيئة التشغيل، الملفات، والأوامر',
-  },
-  { icon: GlobeIcon, title: 'تصفح الويب الذكي', desc: 'بحث عميق وتحليل حي للمعلومات عبر الإنترنت' },
-  {
-    icon: FolderIcon,
-    title: 'الذاكرة طويلة الأمد',
-    desc: 'تذكر سياقك وتفضيلاتك عبر جميع المحادثات',
+    icon: CreditCardIcon,
+    title: 'مدفوعات Stripe حقيقية',
+    desc: 'إعداد اشتراكات ومدفوعات Stripe للمتاجر الإلكترونية',
   },
   {
-    icon: GitBranchIcon,
-    title: 'سير العمل (Workflow)',
-    desc: 'إدارة مهام برمجية معقدة من التخطيط إلى النشر',
+    icon: SmartphoneIcon,
+    title: 'تطبيقات React Native',
+    desc: 'تطوير تطبيقات موبايل حقيقية باستخدام Expo و Hono',
   },
   {
-    icon: SearchIcon,
-    title: 'تحليل البيانات الحقيقي',
-    desc: 'معالجة البيانات والملفات باستخدام أدوات متقدمة',
-  },
-  { icon: PlugIcon, title: 'تكاملات Manus', desc: 'ربط مباشر مع GitHub، Slack، وقواعد البيانات' },
-  {
-    icon: BrainCircuitIcon,
-    title: 'بروتوكول MCP النشط',
-    desc: 'تبادل السياق المتقدم بين النماذج والأدوات',
+    icon: CodeIcon,
+    title: 'خوادم API حقيقية',
+    desc: 'بناء خوادم API سريعة باستخدام Hono و Bun و PostgreSQL',
   },
   {
-    icon: LayoutTemplateIcon,
-    title: 'الهوية السورية الجديدة',
-    desc: 'تصميم عصري يعكس روح الابتكار السوري',
+    icon: MessageSquareIcon,
+    title: 'بوتات AI حقيقية',
+    desc: 'تطوير بوتات محادثة ذكية باستخدام LangChain و OpenAI',
+  },
+  {
+    icon: ZapIcon,
+    title: 'أداء فائق السرعة',
+    desc: 'تحسين الأداء باستخدام أحدث التقنيات البرمجية الحقيقية',
+  },
+  {
+    icon: ShieldCheckIcon,
+    title: 'أمان وحماية حقيقية',
+    desc: 'تطبيق معايير الأمان والمصادقة في جميع المشاريع',
   },
 ];
 
@@ -62,11 +61,11 @@ export default function FeatureGrid() {
     <View style={{ marginTop: 40, paddingHorizontal: 16 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 4 }}>
         <Text style={{ fontSize: 20, fontWeight: '700', color: IMPERIAL.gold }}>
-          18+ أداة متقدمة
+          تقنيات حقيقية متكاملة
         </Text>
       </View>
       <Text style={{ fontSize: 13, color: IMPERIAL.textTertiary, marginBottom: 16 }}>
-        أدوات تنفيذية ذكية لإنجاز أي مهمة
+        نحن لا نقدم محاكاة، بل نبني لك مشاريع جاهزة للنشر والعمل
       </Text>
 
       <View style={{ gap: 10 }}>

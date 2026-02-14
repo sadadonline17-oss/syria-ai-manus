@@ -18,6 +18,8 @@ import {
   CheckIcon,
   XIcon,
   SaveIcon,
+  DatabaseIcon,
+  CreditCardIcon,
 } from 'lucide-react-native';
 import { useState, useEffect } from 'react';
 import {
@@ -34,46 +36,47 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const PROVIDER_KEYS = [
   {
-    provider: 'OpenRouter',
-    envKey: 'OPEN_ROUTER_API_KEY',
-    label: 'OpenRouter',
-    placeholder: 'sk-or-...',
+    provider: 'Supabase',
+    envKey: 'SUPABASE_URL',
+    label: 'Supabase URL',
+    placeholder: 'https://your-project.supabase.co',
   },
   {
-    provider: 'Anthropic',
-    envKey: 'ANTHROPIC_API_KEY',
-    label: 'Anthropic',
-    placeholder: 'sk-ant-...',
+    provider: 'Supabase',
+    envKey: 'SUPABASE_ANON_KEY',
+    label: 'Supabase Anon Key',
+    placeholder: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
   },
-  { provider: 'OpenAI', envKey: 'OPENAI_API_KEY', label: 'OpenAI', placeholder: 'sk-...' },
   {
-    provider: 'Google',
-    envKey: 'GOOGLE_GENERATIVE_AI_API_KEY',
-    label: 'Google AI',
-    placeholder: 'AIza...',
+    provider: 'Stripe',
+    envKey: 'STRIPE_SECRET_KEY',
+    label: 'Stripe Secret Key',
+    placeholder: 'sk_test_...',
   },
-  { provider: 'Groq', envKey: 'GROQ_API_KEY', label: 'Groq', placeholder: 'gsk_...' },
-  { provider: 'Mistral', envKey: 'MISTRAL_API_KEY', label: 'Mistral', placeholder: '' },
-  { provider: 'DeepSeek', envKey: 'DEEPSEEK_API_KEY', label: 'DeepSeek', placeholder: 'sk-...' },
-  { provider: 'xAI', envKey: 'XAI_API_KEY', label: 'xAI (Grok)', placeholder: 'xai-...' },
-  { provider: 'Cohere', envKey: 'COHERE_API_KEY', label: 'Cohere', placeholder: '' },
+  { provider: 'OpenAI', envKey: 'OPENAI_API_KEY', label: 'OpenAI API Key', placeholder: 'sk-...' },
 ];
 
 const settingsGroups = [
   {
-    title: 'الذكاء الاصطناعي',
+    title: 'تكاملات حقيقية',
     items: [
       {
-        icon: BrainCircuitIcon,
-        label: 'مفاتيح API',
-        subtitle: 'إدارة مفاتيح الموفرين',
+        icon: DatabaseIcon,
+        label: 'إعدادات Supabase',
+        subtitle: 'ربط قاعدة البيانات والمصادقة',
         action: 'apikeys',
       },
       {
-        icon: KeyIcon,
-        label: 'النموذج الافتراضي',
-        subtitle: 'اختيار النموذج والموفر',
-        action: 'model',
+        icon: CreditCardIcon,
+        label: 'إعدادات Stripe',
+        subtitle: 'ربط بوابة المدفوعات الحقيقية',
+        action: 'apikeys',
+      },
+      {
+        icon: BrainCircuitIcon,
+        label: 'إعدادات OpenAI',
+        subtitle: 'ربط محرك الذكاء الاصطناعي',
+        action: 'apikeys',
       },
     ],
   },
@@ -88,14 +91,9 @@ const settingsGroups = [
     title: 'التفضيلات',
     items: [
       { icon: BellIcon, label: 'الإشعارات', subtitle: 'إشعارات الدفع والبريد' },
-      { icon: PaletteIcon, label: 'المظهر', subtitle: 'الثيم الملكي السوري' },
+      { icon: PaletteIcon, label: 'المظهر', subtitle: 'الثيم السوري الجديد' },
       { icon: GlobeIcon, label: 'اللغة', subtitle: 'العربية' },
-      { icon: SmartphoneIcon, label: 'الأجهزة', subtitle: 'إدارة الأجهزة المتصلة' },
     ],
-  },
-  {
-    title: 'الدعم',
-    items: [{ icon: CircleHelpIcon, label: 'مركز المساعدة', subtitle: 'الأسئلة الشائعة والدعم' }],
   },
 ];
 
@@ -128,7 +126,7 @@ export default function SettingsScreen() {
     if (Platform.OS === 'web') {
       // silent
     } else {
-      Alert.alert('تم الحفظ', 'تم حفظ مفاتيح API بنجاح');
+      Alert.alert('تم الحفظ', 'تم حفظ الإعدادات الحقيقية بنجاح');
     }
   };
 
@@ -148,7 +146,7 @@ export default function SettingsScreen() {
       showsVerticalScrollIndicator={false}>
       <View style={{ paddingHorizontal: 16, marginBottom: 20 }}>
         <Text style={{ fontSize: 22, fontWeight: '700', color: IMPERIAL.gold, textAlign: 'right' }}>
-          الإعدادات
+          الإعدادات الحقيقية
         </Text>
       </View>
 
@@ -307,7 +305,7 @@ export default function SettingsScreen() {
                 <XIcon size={20} color={IMPERIAL.textTertiary} />
               </TouchableOpacity>
               <Text style={{ fontSize: 16, fontWeight: '700', color: IMPERIAL.gold }}>
-                مفاتيح API
+                إعدادات التكامل الحقيقي
               </Text>
               <TouchableOpacity onPress={saveApiKeys}>
                 <SaveIcon size={20} color={IMPERIAL.success} />
@@ -324,8 +322,9 @@ export default function SettingsScreen() {
                   marginBottom: 16,
                   lineHeight: 20,
                 }}>
-                أدخل مفاتيح API لموفري الذكاء الاصطناعي. المفاتيح تُخزّن محلياً على جهازك فقط.
+                أدخل بيانات الربط الحقيقية لمشاريعك. هذه البيانات تُستخدم لتفعيل الوظائف الحقيقية في التطبيق.
               </Text>
+
               {PROVIDER_KEYS.map((pk) => (
                 <View key={pk.envKey} style={{ marginBottom: 16 }}>
                   <Text
@@ -334,55 +333,41 @@ export default function SettingsScreen() {
                       fontWeight: '600',
                       color: IMPERIAL.text,
                       textAlign: 'right',
-                      marginBottom: 6,
+                      marginBottom: 8,
                     }}>
                     {pk.label}
                   </Text>
                   <View
                     style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      backgroundColor: IMPERIAL.card,
+                      backgroundColor: 'rgba(0,0,0,0.2)',
                       borderRadius: 10,
                       borderWidth: 1,
-                      borderColor: tempKeys[pk.envKey] ? IMPERIAL.borderFocus : IMPERIAL.border,
+                      borderColor: IMPERIAL.border,
+                      flexDirection: 'row',
+                      alignItems: 'center',
                       paddingHorizontal: 12,
                     }}>
-                    <TouchableOpacity
-                      onPress={() => toggleKeyVisibility(pk.envKey)}
-                      style={{ padding: 4 }}>
+                    <TouchableOpacity onPress={() => toggleKeyVisibility(pk.envKey)}>
                       {visibleKeys[pk.envKey] ? (
                         <EyeOffIcon size={16} color={IMPERIAL.textTertiary} />
                       ) : (
                         <EyeIcon size={16} color={IMPERIAL.textTertiary} />
                       )}
                     </TouchableOpacity>
-                    {tempKeys[pk.envKey] && (
-                      <TouchableOpacity
-                        onPress={() => setTempKeys((p) => ({ ...p, [pk.envKey]: '' }))}
-                        style={{ padding: 4, marginLeft: 4 }}>
-                        <XIcon size={14} color={IMPERIAL.error} />
-                      </TouchableOpacity>
-                    )}
                     <TextInput
                       value={tempKeys[pk.envKey] || ''}
-                      onChangeText={(v) => setTempKeys((p) => ({ ...p, [pk.envKey]: v }))}
-                      placeholder={pk.placeholder || 'أدخل المفتاح...'}
-                      placeholderTextColor={IMPERIAL.textTertiary}
+                      onChangeText={(val) => setTempKeys((prev) => ({ ...prev, [pk.envKey]: val }))}
+                      placeholder={pk.placeholder}
+                      placeholderTextColor="rgba(255,255,255,0.2)"
                       secureTextEntry={!visibleKeys[pk.envKey]}
-                      autoCapitalize="none"
-                      autoCorrect={false}
                       style={{
                         flex: 1,
-                        fontSize: 13,
+                        height: 44,
                         color: IMPERIAL.text,
-                        paddingVertical: 12,
-                        textAlign: 'right',
+                        fontSize: 14,
+                        textAlign: 'left',
                       }}
                     />
-                    {apiKeys[pk.envKey] && (
-                      <CheckIcon size={14} color={IMPERIAL.success} style={{ marginRight: 4 }} />
-                    )}
                   </View>
                 </View>
               ))}
