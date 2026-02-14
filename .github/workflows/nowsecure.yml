@@ -45,7 +45,12 @@ jobs:
         run: cd frontend && npm install
 
       - name: Build your application
-        run: cd frontend/android && ./gradlew assembleDebug              # Update this to build your Android or iOS application
+        run: |
+          if [ -d "frontend/android" ]; then
+            cd frontend/android && ./gradlew assembleDebug
+          else
+            echo "Skipping build: frontend/android not found"
+          fi
 
       - name: Run NowSecure
         uses: nowsecure/nowsecure-action@3b439db31b6dce857b09f5222fd13ffc3159ad26

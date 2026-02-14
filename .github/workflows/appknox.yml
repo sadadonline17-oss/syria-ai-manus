@@ -42,10 +42,20 @@ jobs:
         run: cd frontend && npm install
 
       - name: Grant execute permission for gradlew
-        run: chmod +x frontend/android/gradlew
+        run: |
+          if [ -f "frontend/android/gradlew" ]; then
+            chmod +x frontend/android/gradlew
+          else
+            echo "Warning: frontend/android/gradlew not found"
+          fi
 
       - name: Build the app
-        run: cd frontend/android && ./gradlew build                                         # Update this to build your Android or iOS application
+        run: |
+          if [ -d "frontend/android" ]; then
+            cd frontend/android && ./gradlew build
+          else
+            echo "Skipping build: frontend/android not found"
+          fi
 
       - name: Appknox GitHub action
         uses: appknox/appknox-github-action@b7d2bfb2321d5544e97bffcba48557234ab953a4

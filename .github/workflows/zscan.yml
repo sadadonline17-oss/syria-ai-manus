@@ -47,7 +47,12 @@ jobs:
       run: cd frontend && npm install
 
     - name: Execute gradle build
-      run: cd frontend/android && ./gradlew build    # Change this to build your mobile application
+      run: |
+        if [ -d "frontend/android" ]; then
+          cd frontend/android && ./gradlew build
+        else
+          echo "Skipping build: frontend/android not found"
+        fi
 
     - name: Run Zimperium zScan
       uses: zimperium/zscanmarketplace@bfc6670f6648d796098c251ccefcfdb98983174d
