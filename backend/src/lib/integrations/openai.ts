@@ -9,7 +9,7 @@ export interface DALLERequest {
   prompt: string;
   model?: 'dall-e-3' | 'dall-e-2';
   n?: number;
-  size?: '1024x1024' | '1792x1024' | '1024x1792';
+  size?: '1024x1024' | '1536x1024' | '1024x1536' | '256x256' | '512x512';
   quality?: 'standard' | 'hd';
   style?: 'vivid' | 'natural';
 }
@@ -23,8 +23,8 @@ export interface DALLEResponse {
 }
 
 export interface WhisperRequest {
-  file: Buffer | Blob;
-  model?: 'whisper-1' | 'whisper-2';
+  file: any;  // Accept any type to avoid complex type conflicts
+  model?: 'whisper-1';
   language?: string;
   response_format?: 'json' | 'text' | 'srt' | 'verbose_json' | 'vtt';
   temperature?: number;
@@ -75,21 +75,21 @@ export class OpenAIExtendedIntegration {
 
     return {
       created: response.created,
-      data: response.data.map(item => ({
+      data: response.data?.map(item => ({
         url: item.url || '',
         revised_prompt: item.revised_prompt || request.prompt,
-      })),
+      })) || [],
     };
   }
 
   // DALL-E Image Edit
-  async editImage(image: Buffer, mask: Buffer | undefined, prompt: string, options?: {
+  async editImage(image: Blob | Uint8Array, mask: Blob | Uint8Array | undefined, prompt: string, options?: {
     n?: number;
-    size?: '1024x1024' | '1792x1024' | '1024x1792';
+    size?: '1024x1024' | '1536x1024' | '1024x1536' | '256x256' | '512x512';
   }) {
     const response = await this.client.images.edit({
-      image,
-      mask,
+      image: image as any,
+      mask: mask as any,
       prompt,
       n: options?.n || 1,
       size: options?.size || '1024x1024',
@@ -97,44 +97,37 @@ export class OpenAIExtendedIntegration {
 
     return {
       created: response.created,
-      data: response.data.map(item => ({
+      data: response.data?.map(item => ({
         url: item.url || '',
         revised_prompt: prompt,
-      })),
+      })) || [],
     };
   }
 
   // DALL-E Image Variations
-  async createVariations(image: Buffer, options?: {
+  async createVariations(image: Blob | Uint8Array, options?: {
     n?: number;
-    size?: '1024x1024' | '1792x1024' | '1024x1792';
+    size?: '1024x1024' | '256x256' | '512x512';
   }) {
     const response = await this.client.images.createVariation({
-      image,
+      image: image as any,
       n: options?.n || 1,
       size: options?.size || '1024x1024',
     });
 
     return {
       created: response.created,
-      data: response.data.map(item => ({
+      data: response.data?.map(item => ({
         url: item.url || '',
         revised_prompt: 'variation',
-      })),
+      })) || [],
     };
   }
 
   // Whisper Transcription
   async transcribe(request: WhisperRequest): Promise<WhisperResponse> {
-    const formData = new FormData();
-    formData.append('file', new Blob([request.file]));
-    formData.append('model', request.model || 'whisper-1');
-    if (request.language) formData.append('language', request.language);
-    if (request.response_format) formData.append('response_format', request.response_format);
-    if (request.temperature !== undefined) formData.append('temperature', request.temperature.toString());
-
     const response = await this.client.audio.transcriptions.create({
-      file: new Blob([request.file]),
+      file: request.file as any,
       model: request.model || 'whisper-1',
       language: request.language,
       response_format: request.response_format || 'json',
@@ -149,13 +142,13 @@ export class OpenAIExtendedIntegration {
   }
 
   // Whisper Translation
-  async translate(audio: Buffer, options?: {
+  async translate(audio: any, options?: {
     model?: 'whisper-1';
     response_format?: 'json' | 'text' | 'srt' | 'verbose_json' | 'vtt';
     temperature?: number;
   }) {
     const response = await this.client.audio.translations.create({
-      file: new Blob([audio]),
+      file: audio as any,
       model: options?.model || 'whisper-1',
       response_format: options?.response_format || 'json',
       temperature: options?.temperature,
