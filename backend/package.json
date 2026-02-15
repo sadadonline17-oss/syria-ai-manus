@@ -26,7 +26,9 @@
     "ai": "^6.0.78",
     "hono": "^4.9.10",
     "ollama-ai-provider": "^1.2.0",
-    "zod": "^4.3.6"
+    "openai": "^4.104.0",
+    "stripe": "^17.0.0",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
