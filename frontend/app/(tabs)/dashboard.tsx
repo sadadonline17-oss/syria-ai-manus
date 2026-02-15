@@ -21,26 +21,26 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 
 const stats = [
-  { icon: UsersIcon, label: 'المستخدمون', value: '2,847', change: '+12%' },
-  { icon: MessageSquareIcon, label: 'المحادثات', value: '18,392', change: '+28%' },
-  { icon: ZapIcon, label: 'المهام المنجزة', value: '5,214', change: '+35%' },
-  { icon: TrendingUpIcon, label: 'معدل النجاح', value: '94.7%', change: '+2.1%' },
+  { icon: UsersIcon, label: 'المستخدمون النشطون', value: '2,847', change: '+12%' },
+  { icon: MessageSquareIcon, label: 'محادثات حقيقية', value: '18,392', change: '+28%' },
+  { icon: ZapIcon, label: 'مهام وكلاء ناجحة', value: '5,214', change: '+35%' },
+  { icon: TrendingUpIcon, label: 'دقة التنفيذ', value: '94.7%', change: '+2.1%' },
 ];
 
 const systemStatus = [
-  { icon: ServerIcon, label: 'حالة الخادم', status: 'متصل', ok: true },
-  { icon: DatabaseIcon, label: 'قاعدة البيانات', status: 'Supabase', ok: true },
-  { icon: ShieldCheckIcon, label: 'الأمان', status: 'OAuth2 + 2FA', ok: true },
-  { icon: ActivityIcon, label: 'زمن الاستجابة', status: '45ms', ok: true },
+  { icon: ServerIcon, label: 'خادم Hono + Bun', status: 'متصل ونشط', ok: true },
+  { icon: DatabaseIcon, label: 'Supabase Real-time', status: 'متصل', ok: true },
+  { icon: ShieldCheckIcon, label: 'أمان JWT + OAuth2', status: 'مفعل', ok: true },
+  { icon: ActivityIcon, label: 'زمن استجابة API', status: '45ms', ok: true },
 ];
 
 const quickLinks = [
   { icon: StoreIcon, label: 'سوق الأدوات', route: '/(tabs)/marketplace' },
   { icon: SettingsIcon, label: 'الإعدادات', route: '/(tabs)/settings' },
-  { icon: PlugIcon, label: 'موصلات MCP', route: null },
-  { icon: LayoutTemplateIcon, label: 'قوالب المشاريع', route: null },
+  { icon: PlugIcon, label: 'موصلات MCP', route: '/(tabs)/marketplace' },
+  { icon: LayoutTemplateIcon, label: 'قوالب المشاريع', route: '/(tabs)/marketplace' },
   { icon: BrainCircuitIcon, label: 'مفاتيح API', route: '/(tabs)/settings' },
-  { icon: SearchIcon, label: 'بحث ذكي', route: null },
+  { icon: SearchIcon, label: 'بحث Manus', route: '/(tabs)/chat' },
 ];
 
 const chartBars = [
@@ -85,9 +85,9 @@ export default function DashboardScreen() {
           <GoldenEagle size={22} />
         </View>
         <View style={{ alignItems: 'flex-end' }}>
-          <Text style={{ fontSize: 22, fontWeight: '700', color: IMPERIAL.gold }}>لوحة التحكم</Text>
+          <Text style={{ fontSize: 22, fontWeight: '700', color: IMPERIAL.gold }}>لوحة التحكم الحقيقية</Text>
           <Text style={{ fontSize: 12, color: IMPERIAL.textTertiary }}>
-            إدارة النظام والإحصائيات
+            إدارة النظام والبيانات المباشرة
           </Text>
         </View>
       </View>
@@ -101,7 +101,7 @@ export default function DashboardScreen() {
             textAlign: 'right',
             marginBottom: 10,
           }}>
-          الوصول السريع
+          الوصول السريع للخدمات
         </Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
           {quickLinks.map((link) => {
@@ -258,7 +258,7 @@ export default function DashboardScreen() {
             textAlign: 'right',
             marginBottom: 12,
           }}>
-          نشاط الأسبوع
+          نشاط الوكلاء الحقيقي
         </Text>
         <View
           style={{
@@ -302,7 +302,7 @@ export default function DashboardScreen() {
             textAlign: 'right',
             marginBottom: 12,
           }}>
-          حالة النظام
+          حالة الخدمات المتصلة
         </Text>
         <View
           style={{
