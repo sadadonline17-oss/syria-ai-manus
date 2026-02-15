@@ -1,10 +1,12 @@
 import GoldenEagle from '@/components/icons/GoldenEagle';
 import { IMPERIAL } from '@/lib/theme';
+import { useRouter } from 'expo-router';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Navbar() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
 
   return (
     <View
@@ -37,6 +39,7 @@ export default function Navbar() {
 
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
           <TouchableOpacity
+            onPress={() => router.push('/auth/login')}
             activeOpacity={0.8}
             style={{
               backgroundColor: IMPERIAL.primary,
