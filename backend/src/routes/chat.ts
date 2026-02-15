@@ -34,18 +34,19 @@ chat.post('/', async (c) => {
       messages: allMessages,
       tools: manusTools,
       // @ts-ignore - maxSteps is supported at runtime in this version
-      maxSteps: 5,
+      maxSteps: 10, // Increased steps for complex tasks
       maxOutputTokens: maxTokens || 4096,
       temperature: temperature ?? 0.7,
       onFinish: async ({ text }) => {
         // Integration: Save important info to memory on finish
-        if (text.length > 50) {
+        if (text && text.length > 50) {
           await globalMemory.remember(`interaction_${Date.now()}`, text.slice(0, 100), 0.5);
         }
       }
     });
 
-    return result.toTextStreamResponse();
+    // Using toDataStreamResponse to include tool calls and results in the stream
+    return result.toDataStreamResponse();
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     console.error('Chat error:', message);

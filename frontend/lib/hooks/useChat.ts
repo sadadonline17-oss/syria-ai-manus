@@ -77,13 +77,44 @@ export function useChat() {
         }
 
         const decoder = new TextDecoder();
-        let accumulated = '';
+        let accumulatedText = '';
+        let toolCallLogs = '';
 
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
-          accumulated += decoder.decode(value, { stream: true });
-          updateMessage(assistantId, accumulated);
+          
+          const chunk = decoder.decode(value, { stream: true });
+          
+          // Parse AI SDK Data Stream Protocol
+          // Format: type:content (e.g., 0:"text", 9:{"toolCall":...})
+          const lines = chunk.split('\n').filter(l => l.trim());
+          
+          for (const line of lines) {
+            const type = line[0];
+            const content = line.slice(2); // Skip type and colon
+            
+            try {
+              if (type === '0') { // Text part
+                const textPart = JSON.parse(content);
+                accumulatedText += textPart;
+              } else if (type === '9') { // Tool call
+                const toolCall = JSON.parse(content);
+                toolCallLogs += `\n> 🛠️ جاري استخدام أداة: **${toolCall.toolName}**...\n`;
+              } else if (type === 'a') { // Tool result
+                const toolResult = JSON.parse(content);
+                toolCallLogs += `\n✅ اكتمل استخدام الأداة بنجاح.\n`;
+              }
+            } catch (e) {
+              // Fallback for non-JSON or malformed parts
+              if (!line.startsWith('{') && !line.startsWith('[')) {
+                 // ignore
+              }
+            }
+          }
+          
+          // Update UI with both logs and text
+          updateMessage(assistantId, toolCallLogs + accumulatedText);
         }
 
         finishStreaming(assistantId);
